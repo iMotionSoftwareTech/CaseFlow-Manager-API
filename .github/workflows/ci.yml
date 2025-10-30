@@ -24,10 +24,10 @@ jobs:
         run: ls -R
 
       - name: Restore
-        run: dotnet restore CaseFlowManager.API\CaseFlowManager.API.sln
+        run: dotnet restore CaseFlowManager.API/CaseFlowManager.API.sln
 
       - name: Build
-        run: dotnet build CaseFlowManager.API\CaseFlowManager.API.sln -c Release --no-restore
+        run: dotnet build CaseFlowManager.API/CaseFlowManager.API.sln -c Release --no-restore
 
       - name: Test
-        run: dotnet test CaseFlowManager.API\CaseFlowManager.API.sln
+        run: dotnet test CaseFlowManager.API/CaseFlowManager.API.sln

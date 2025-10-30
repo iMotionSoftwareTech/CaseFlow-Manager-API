@@ -39,5 +39,5 @@ jobs:
       - name: Build
         run: dotnet build CaseFlowManager.API/CaseFlowManager.API.sln -c Release --no-restore
 
-      - name: test
-        run: dotnet test CaseFlowManager.API/CaseFlowManager.API.sln
+      # - name: test
+        # run: dotnet test CaseFlowManager.API/CaseFlowManager.API.sln

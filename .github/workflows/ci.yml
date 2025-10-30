@@ -8,6 +8,7 @@ on:
 
 permissions:
   contents: read
+  packages: read
 
 jobs:
   build:
@@ -31,14 +32,12 @@ jobs:
 
       - name: List nuget sources (debug)
         run: dotnet nuget list source
-      - name: List repo files
-        run: ls -R
-
+        
       - name: Restore
         run: dotnet restore CaseFlowManager.API/CaseFlowManager.API.sln
 
       - name: Build
         run: dotnet build CaseFlowManager.API/CaseFlowManager.API.sln -c Release --no-restore
 
-      # - name: Test
-        # run: dotnet test CaseFlowManager.API/CaseFlowManager.API.sln
+      - name: test
+        run: dotnet test CaseFlowManager.api/CaseFlowManager.api.sln

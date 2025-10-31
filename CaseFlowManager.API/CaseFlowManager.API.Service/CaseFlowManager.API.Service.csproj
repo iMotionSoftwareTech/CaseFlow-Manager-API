@@ -16,4 +16,8 @@
     <PackageReference Include="IMotionSoftware.CaseFlowDataPackage" Version="1.1.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CaseFlowManager.API.Models\CaseFlowManager.API.Models.csproj" />
+  </ItemGroup>
+
 </Project>

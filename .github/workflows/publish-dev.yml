@@ -40,8 +40,12 @@ jobs:
         run: dotnet build CaseFlowManager.API/CaseFlowManager.API.sln -c Release --no-restore
 
       - name: Pack Models package
-        run: dotnet pack CaseFlowManager.API/CaseFlowManager.API.Models/CaseFlowManager.API.Models.csproj \
-               -c Release -o ./artifacts -p:PackageVersion=0.1.0-dev.${{ github.run_number }}
+        run: |
+          dotnet pack CaseFlowManager.API/CaseFlowManager.API.Models/CaseFlowManager.API.Models.csproj \
+            -c Release \
+            -o ./artifacts \
+            -p:PackageVersion=0.1.0-dev.${{ github.run_number }}
+
 
       - name: List artifacts
         run: ls -l ./artifacts || true

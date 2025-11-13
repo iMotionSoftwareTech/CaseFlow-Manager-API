@@ -6,15 +6,40 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <AssemblyName>IMotionSoftware.$(MSBuildProjectName)</AssemblyName>
     <RootNamespace>IMotionSoftware.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+    <UserSecretsId>3d8a2f37-516a-43e3-9e6b-c845a4b8835b</UserSecretsId>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <NoWarn>1701;1702;1591</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <NoWarn>1701;1702;1591</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Configs\SwaggerConfig.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.6" />
-    <PackageReference Include="Swashbuckle" Version="5.6.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.6" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="9.0.6" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="9.0.6" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\CaseFlowManager.API.Service\CaseFlowManager.API.Service.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Configs\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="IMotionSoftware.CaseFlowDataPackage">
+      <HintPath>..\..\..\..\Nuget\CaseFlow-Data-Package\CaseFlowDataPackage\CaseFlowDataPackage\bin\Debug\net9.0\IMotionSoftware.CaseFlowDataPackage.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

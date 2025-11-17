@@ -50,7 +50,7 @@ public class TaskControllerUnitTests
         var parameter = UnitTestData.GetCreateTaskRequest();
         this._taskServiceMock
             .Setup(service => service.CreateTaskAsync(It.IsAny<CreateTaskRequest>()))
-            .ReturnsAsync(1);
+            .ReturnsAsync(-1);
 
         // Act
         var result = await this._taskController.CreateCaseTaskAsync(parameter);

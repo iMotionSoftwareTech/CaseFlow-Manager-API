@@ -49,7 +49,7 @@ public class UserControllerUnitTests
         // Arrange
         var request = UnitTestData.GetCreateUserRequest();
         this._userServiceMock
-            .Setup(s => s.CreateUserAsync(It.IsAny<CreateUserRequest>())).ReturnsAsync(1);
+            .Setup(s => s.CreateUserAsync(It.IsAny<CreateUserRequest>())).ReturnsAsync(-1);
 
         // Act
         var result = await _userController.CreateNewUserAsync(request);
@@ -69,7 +69,7 @@ public class UserControllerUnitTests
         var request = UnitTestData.GetCreateUserRequest();
         this._userServiceMock
             .Setup(service => service.CreateUserAsync(It.IsAny<CreateUserRequest>()))
-            .ReturnsAsync(-1);
+            .ReturnsAsync(0);
 
         // Act
         var result = await this._userController.CreateNewUserAsync(request);

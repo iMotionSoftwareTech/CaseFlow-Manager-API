@@ -49,7 +49,7 @@ public class RoleControllerUnitTests
         // Arrange
         var parameter = UnitTestData.GetCreateRoleRequest();
         this._roleServiceMock
-            .Setup(service => service.CreateRoleAsync(It.IsAny<CreateRoleRequest>())).ReturnsAsync(1);
+            .Setup(service => service.CreateRoleAsync(It.IsAny<CreateRoleRequest>())).ReturnsAsync(-1);
 
         // Act
         var result = await this._roleController.CreateCaseworkerRoleAsync(parameter);
@@ -69,7 +69,7 @@ public class RoleControllerUnitTests
         var parameter = UnitTestData.GetCreateRoleRequest();
         this._roleServiceMock
             .Setup(service => service.CreateRoleAsync(It.IsAny<CreateRoleRequest>()))
-            .ReturnsAsync(-1);
+            .ReturnsAsync(0);
 
         // Act
         var result = await this._roleController.CreateCaseworkerRoleAsync(parameter);

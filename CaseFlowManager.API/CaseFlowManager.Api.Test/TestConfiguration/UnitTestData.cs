@@ -1,4 +1,6 @@
-﻿using IMotionSoftware.CaseFlowManager.API.Models.Request;
+﻿using IMotionSoftware.CaseFlowDataPackage.DomainObjects;
+using IMotionSoftware.CaseFlowManager.API.Models.Models;
+using IMotionSoftware.CaseFlowManager.API.Models.Request;
 
 namespace IMotionSoftware.CaseFlowManager.Api.Test.TestConfiguration
 {
@@ -47,6 +49,52 @@ namespace IMotionSoftware.CaseFlowManager.Api.Test.TestConfiguration
                 Forename = "John",
                 Surname = "Doe",
                 Email = "john.doe@hmcts.org.uk"
+            };
+        }
+
+        /// <summary>
+        /// Gets all roles.
+        /// </summary>
+        /// <returns>The <see cref="IEnumerable{T}"/></returns>
+        public static IEnumerable<CaseworkerRoleDto> GetAllRoles()
+        {
+            return new List<CaseworkerRoleDto>
+            {
+                new CaseworkerRoleDto
+                {
+                    Id = 1,
+                    Name = "Role 1",
+                    Description = "Description for Role 1"
+                },
+                new CaseworkerRoleDto
+                {
+                    Id = 2,
+                    Name = "Role 2",
+                    Description = "Description for Role 2"
+                }
+            };
+        }
+
+        /// <summary>
+        /// Gets all caseworker roles.
+        /// </summary>
+        /// <returns>The <see cref="IEnumerable{T}"/></returns>
+        public static IEnumerable<CaseworkerRole> GetAllCaseworkerRoles()
+        {
+            return new List<CaseworkerRole>
+            {
+                new CaseworkerRole
+                {
+                    Id = 3,
+                    Name = "Role 3",
+                    Description = "Description for Role 3"
+                },
+                new CaseworkerRole
+                {
+                    Id = 4,
+                    Name = "Role 4",
+                    Description = "Description for Role 4"
+                }
             };
         }
     }

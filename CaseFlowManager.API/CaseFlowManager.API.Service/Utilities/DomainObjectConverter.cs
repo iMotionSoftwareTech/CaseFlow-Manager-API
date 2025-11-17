@@ -1,4 +1,6 @@
-﻿using IMotionSoftware.CaseFlowDataPackage.DomainObjects.ParameterObjects;
+﻿using IMotionSoftware.CaseFlowDataPackage.DomainObjects;
+using IMotionSoftware.CaseFlowDataPackage.DomainObjects.ParameterObjects;
+using IMotionSoftware.CaseFlowManager.API.Models.Models;
 using IMotionSoftware.CaseFlowManager.API.Models.Request;
 
 namespace CaseFlowManager.API.Service.Utilities
@@ -55,6 +57,27 @@ namespace CaseFlowManager.API.Service.Utilities
                 PasswordSalt = createUserRequest.PasswordSalt,
                 CreatedDateTime = createUserRequest.CreatedDateTime
             };
-        }   
+        }
+
+        /// <summary>
+        /// Converts to caseworkerrole.
+        /// </summary>
+        /// <param name="caseworkerRoles">The caseworker role.</param>
+        /// <returns>The <see cref="IEnumerable{T}"/></returns>
+        public static IEnumerable<CaseworkerRole> ToCaseworkerRoles(this IEnumerable<CaseworkerRoleDto> caseworkerRoles)
+        {
+            var roles = new List<CaseworkerRole>();
+            foreach (var role in caseworkerRoles)
+            {
+                roles.Add(new CaseworkerRole
+                {
+                    Id = role.Id,
+                    Name = role.Name,
+                    Description = role.Description
+                });
+            };
+
+            return roles;
+        }
     }
 }

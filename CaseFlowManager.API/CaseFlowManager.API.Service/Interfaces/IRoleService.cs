@@ -1,4 +1,5 @@
-﻿using IMotionSoftware.CaseFlowManager.API.Models.Request;
+﻿using IMotionSoftware.CaseFlowManager.API.Models.Models;
+using IMotionSoftware.CaseFlowManager.API.Models.Request;
 
 namespace CaseFlowManager.API.Service.Interfaces
 {
@@ -13,5 +14,11 @@ namespace CaseFlowManager.API.Service.Interfaces
         /// <param name="createRoleRequest">The create role request.</param>
         /// <returns>The <see cref="Task{TResult}"/></returns>
         Task<int> CreateRoleAsync(CreateRoleRequest createRoleRequest);
+
+        /// <summary>
+        /// Gets all roles asynchronous.
+        /// </summary>
+        /// <returns>The <see cref="Task{TResult}}"/></returns>
+        Task<IEnumerable<CaseworkerRole>> GetAllRolesAsync();
     }
 }

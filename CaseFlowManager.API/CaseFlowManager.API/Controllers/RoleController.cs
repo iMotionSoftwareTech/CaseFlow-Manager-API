@@ -56,5 +56,25 @@ namespace CaseFlowManager.API.Controllers
             
             return Ok();
         }
+
+        /// <summary>
+        /// Gets all caseworker roles asynchronous.
+        /// </summary>
+        /// <returns>The <see cref="Task{T}"/></returns>
+        [HttpGet]
+        [Route("GetAllCaseworkerRolesAsync")]
+        public async Task<ActionResult> GetAllCaseworkerRolesAsync()
+        {
+            try
+            {
+                var result = await this._roleService.GetAllRolesAsync();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while retrieving roles.");
+                return StatusCode(500, "Internal server error");
+            }
+        }
     }
 }

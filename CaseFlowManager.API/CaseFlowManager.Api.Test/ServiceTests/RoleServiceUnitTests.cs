@@ -1,6 +1,7 @@
 using CaseFlowManager.API.Service.Services;
 using IMotionSoftware.CaseFlowDataPackage.DomainObjects.ParameterObjects;
 using IMotionSoftware.CaseFlowDataPackage.Interfaces;
+using IMotionSoftware.CaseFlowManager.Api.Test.TestConfiguration;
 using Moq;
 
 namespace IMotionSoftware.CaseFlowManager.Api.Test;
@@ -38,7 +39,7 @@ public class RoleServiceUnitTests
     public async Task CreateRole_IsSuccessfull_Test()
     {
         // Arrange
-        var parameter = TestConfiguration.UnitTestData.GetCreateRoleRequest();
+        var parameter = UnitTestData.GetCreateRoleRequest();
         this._roleRepoMock
             .Setup(repo => repo.CreateRoleAsync(It.IsAny<CreateRoleParameter>())).ReturnsAsync(1);
 
@@ -48,5 +49,24 @@ public class RoleServiceUnitTests
         // Assert
         Assert.AreEqual(1, result);
         this._roleRepoMock.Verify(repo => repo.CreateRoleAsync(It.IsAny<CreateRoleParameter>()), Times.Once);
+    }
+
+    /// <summary>
+    /// Gets the roles asynchronous is successfull test.
+    /// </summary>
+    [TestMethod, TestCategory("UnitTest")]
+    public async Task GetRolesAsync_IsSuccessfull_Test()
+    {
+        // Arrange
+        var roles = UnitTestData.GetAllRoles();
+        this._roleRepoMock
+            .Setup(repo => repo.GetAllRolesAsync()).ReturnsAsync(roles);
+
+        // Act
+        var result = await this._roleService.GetAllRolesAsync();
+
+        // Assert
+        Assert.IsNotNull(result);
+        this._roleRepoMock.Verify(repo => repo.GetAllRolesAsync(), Times.Once);
     }
 }

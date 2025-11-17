@@ -100,4 +100,44 @@ public class RoleControllerUnitTests
         Assert.AreEqual(500, statusCodeResult.StatusCode);
         this._roleServiceMock.Verify(service => service.CreateRoleAsync(It.IsAny<CreateRoleRequest>()), Times.Once);
     }
+
+    /// <summary>
+    /// Gets all caseworker roles asynchronous returns ok test.
+    /// </summary>
+    [TestMethod, TestCategory("UnitTest")]
+    public async Task GetAllCaseworkerRolesAsync_ReturnsOk_Test()
+    {
+        // Arrange
+        var roles = UnitTestData.GetAllCaseworkerRoles();
+        this._roleServiceMock
+            .Setup(service => service.GetAllRolesAsync()).ReturnsAsync(roles);
+
+        // Act
+        var result = await this._roleController.GetAllCaseworkerRolesAsync();
+
+        // Assert
+        Assert.IsTrue(result is OkObjectResult);
+        this._roleServiceMock.Verify(service => service.GetAllRolesAsync(), Times.Once);
+    }
+
+    /// <summary>
+    /// Gets all caseworker roles asynchronous returns internal server error on exception test.
+    /// </summary>
+    [TestMethod, TestCategory("UnitTest")]
+    public async Task GetAllCaseworkerRolesAsync_ReturnsInternalServerError_OnException_Test()
+    {
+        // Arrange
+        this._roleServiceMock
+            .Setup(service => service.GetAllRolesAsync())
+            .ThrowsAsync(new Exception("Test exception"));
+
+        // Act
+        var result = await this._roleController.GetAllCaseworkerRolesAsync();
+
+        // Assert
+        var statusCodeResult = result as ObjectResult;
+        Assert.IsNotNull(statusCodeResult);
+        Assert.AreEqual(500, statusCodeResult.StatusCode);
+        this._roleServiceMock.Verify(service => service.GetAllRolesAsync(), Times.Once);
+    }
 }

@@ -38,14 +38,15 @@ public class RoleServiceUnitTests
     public async Task CreateRole_IsSuccessfull_Test()
     {
         // Arrange
-        var parameter = TestConfiguration.UnitTestData.GetCreateRoleParameter();
+        var parameter = TestConfiguration.UnitTestData.GetCreateRoleRequest();
         this._roleRepoMock
-            .Setup(repo => repo.CreateRoleAsync(It.IsAny<CreateRoleParameter>()));
+            .Setup(repo => repo.CreateRoleAsync(It.IsAny<CreateRoleParameter>())).ReturnsAsync(1);
 
         // Act
-        await this._roleService.CreateRoleAsync(parameter);
+        var result = await this._roleService.CreateRoleAsync(parameter);
 
         // Assert
+        Assert.AreEqual(1, result);
         this._roleRepoMock.Verify(repo => repo.CreateRoleAsync(It.IsAny<CreateRoleParameter>()), Times.Once);
     }
 }

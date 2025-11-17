@@ -15,9 +15,13 @@ builder.Services.AddEndpointsApiExplorer();
 
 // Register API Service Interfaces
 builder.Services.AddTransient<IRoleService, RoleService>();
+builder.Services.AddTransient<ITaskService, TaskService>();
+builder.Services.AddTransient<IUserService, UserService>();
 
 // Register Repo Interfaces
 builder.Services.AddTransient<IRoleRepo, RoleRepo>();
+builder.Services.AddTransient<ITaskRepo, TaskRepo>();
+builder.Services.AddTransient<IUserRepo, UserRepo>();
 
 builder.Services.AddSingleton<IDbConnectionFactory>(sp =>
 {

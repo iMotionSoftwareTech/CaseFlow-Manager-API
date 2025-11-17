@@ -44,14 +44,17 @@ namespace CaseFlowManager.API.Controllers
         {
             try
             {
-                await this._roleService.CreateRoleAsync(createRoleRequest);
-                return Ok();
+                var result = await this._roleService.CreateRoleAsync(createRoleRequest);
+                if (result != -1)
+                    return BadRequest("Role creation failed.");
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while creating role.");
                 return StatusCode(500, "Internal server error");
             }
+            
+            return Ok();
         }
     }
 }

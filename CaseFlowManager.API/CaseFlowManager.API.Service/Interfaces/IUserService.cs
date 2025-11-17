@@ -3,15 +3,15 @@
 namespace CaseFlowManager.API.Service.Interfaces
 {
     /// <summary>
-    /// The IRoleService
+    /// The IUserService
     /// </summary>
-    public interface IRoleService
+    public interface IUserService
     {
         /// <summary>
-        /// Creates the role asynchronous.
+        /// Creates the user asynchronous.
         /// </summary>
-        /// <param name="createRoleRequest">The create role request.</param>
+        /// <param name="createUserRequest">The create user request.</param>
         /// <returns>The <see cref="Task{TResult}"/></returns>
-        Task<int> CreateRoleAsync(CreateRoleRequest createRoleRequest);
+        Task<int> CreateUserAsync(CreateUserRequest createUserRequest);
     }
 }

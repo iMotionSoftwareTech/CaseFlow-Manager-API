@@ -1,5 +1,6 @@
 using CaseFlowManager.API.Controllers;
 using CaseFlowManager.API.Service.Interfaces;
+using IMotionSoftware.CaseFlowManager.Api.Test.TestConfiguration;
 using IMotionSoftware.CaseFlowManager.API.Models.Request;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -46,9 +47,9 @@ public class RoleControllerUnitTests
     public async Task CreateCaseworkerRoleASync_ReturnsOk_Test()
     {
         // Arrange
-        var parameter = TestConfiguration.UnitTestData.GetCreateRoleParameter();
+        var parameter = UnitTestData.GetCreateRoleRequest();
         this._roleServiceMock
-            .Setup(service => service.CreateRoleAsync(It.IsAny<CreateRoleRequest>()));
+            .Setup(service => service.CreateRoleAsync(It.IsAny<CreateRoleRequest>())).ReturnsAsync(1);
 
         // Act
         var result = await this._roleController.CreateCaseworkerRoleAsync(parameter);
@@ -59,18 +60,40 @@ public class RoleControllerUnitTests
     }
 
     /// <summary>
+    /// Creates the caseworker role asynchronous returns bad request test.
+    /// </summary>
+    [TestMethod, TestCategory("UnitTest")]
+    public async Task CreateCaseworkerRoleAsync_ReturnsBadRequest_Test()
+    {
+        // Arrange
+        var parameter = UnitTestData.GetCreateRoleRequest();
+        this._roleServiceMock
+            .Setup(service => service.CreateRoleAsync(It.IsAny<CreateRoleRequest>()))
+            .ReturnsAsync(-1);
+
+        // Act
+        var result = await this._roleController.CreateCaseworkerRoleAsync(parameter);
+
+        // Assert
+        Assert.IsTrue(result is BadRequestObjectResult);
+        this._roleServiceMock.Verify(service => service.CreateRoleAsync(It.IsAny<CreateRoleRequest>()), Times.Once);
+    }
+
+    /// <summary>
     /// Creates the caseworker role a synchronize returns internal server error on exception test.
     /// </summary>
     [TestMethod, TestCategory("UnitTest")]
     public async Task CreateCaseworkerRoleASync_ReturnsInternalServerError_OnException_Test()
     {
         // Arrange
-        var parameter = TestConfiguration.UnitTestData.GetCreateRoleParameter();
+        var parameter = UnitTestData.GetCreateRoleRequest();
         this._roleServiceMock
             .Setup(service => service.CreateRoleAsync(It.IsAny<CreateRoleRequest>()))
             .ThrowsAsync(new Exception("Test exception"));
+
         // Act
         var result = await this._roleController.CreateCaseworkerRoleAsync(parameter);
+
         // Assert
         var statusCodeResult = result as ObjectResult;
         Assert.IsNotNull(statusCodeResult);

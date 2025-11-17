@@ -29,9 +29,12 @@ namespace CaseFlowManager.API.Service.Services
         /// Creates the role asynchronous.
         /// </summary>
         /// <param name="createRoleRequest">The create role request.</param>
-        public async Task CreateRoleAsync(CreateRoleRequest createRoleRequest)
+        /// <returns>
+        /// The <see cref="Task{TResult}" />
+        /// </returns>
+        public async Task<int> CreateRoleAsync(CreateRoleRequest createRoleRequest)
         {
-            await _roleRepo.CreateRoleAsync(createRoleRequest.ToCreateRoleParameter());
+            return await _roleRepo.CreateRoleAsync(createRoleRequest.ToCreateRoleParameter());
         }
     }
 }

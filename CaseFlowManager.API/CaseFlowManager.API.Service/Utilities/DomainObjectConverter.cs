@@ -21,5 +21,40 @@ namespace CaseFlowManager.API.Service.Utilities
                 Description = createRoleRequest.Description
             };
         }
+
+        /// <summary>
+        /// Converts to createtaskparameter.
+        /// </summary>
+        /// <param name="createTaskRequest">The create task request.</param>
+        /// <returns>The <see cref="CreateTaskParameter"/></returns>
+        public static CreateTaskParameter ToCreateTaskParameter(this CreateTaskRequest createTaskRequest)
+        {
+            return new CreateTaskParameter
+            {
+                CaseworkerId = createTaskRequest.CaseworkerId,
+                Title = createTaskRequest.Title,
+                Description = createTaskRequest.Description,
+                DueDateTime = createTaskRequest.DueDateTime
+            };
+        }
+
+        /// <summary>
+        /// Converts to createuserparameter.
+        /// </summary>
+        /// <param name="createUserRequest">The create user request.</param>
+        /// <returns>The <see cref="CreateUserParameter"/></returns>
+        public static CreateUserParameter ToCreateUserParameter(this CreateUserRequest createUserRequest)
+        {
+            return new CreateUserParameter
+            {
+                CaseworkerRoleId = createUserRequest.CaseworkerRoleId,
+                Forename = createUserRequest.Forename,
+                Surname = createUserRequest.Surname,
+                Email = createUserRequest.Email,
+                PasswordHash = createUserRequest.PasswordHash,
+                PasswordSalt = createUserRequest.PasswordSalt,
+                CreatedDateTime = createUserRequest.CreatedDateTime
+            };
+        }   
     }
 }

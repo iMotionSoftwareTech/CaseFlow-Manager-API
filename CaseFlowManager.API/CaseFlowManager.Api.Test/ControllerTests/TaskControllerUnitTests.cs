@@ -100,4 +100,44 @@ public class TaskControllerUnitTests
         Assert.AreEqual(500, statusCodeResult.StatusCode);
         this._taskServiceMock.Verify(service => service.CreateTaskAsync(It.IsAny<CreateTaskRequest>()), Times.Once);
     }
+
+    /// <summary>
+    /// Gets all caseworker roles asynchronous returns ok test.
+    /// </summary>
+    [TestMethod, TestCategory("UnitTest")]
+    public async Task GetAllCaseworkerRolesAsync_ReturnsOk_Test()
+    {
+        // Arrange
+        var statuses = UnitTestData.GetAllStatuses();
+        this._taskServiceMock
+            .Setup(service => service.GetAllStatusesAsync()).ReturnsAsync(statuses);
+
+        // Act
+        var result = await this._taskController.GetAllStatusesAsync();
+
+        // Assert
+        Assert.IsTrue(result is OkObjectResult);
+        this._taskServiceMock.Verify(service => service.GetAllStatusesAsync(), Times.Once);
+    }
+
+    /// <summary>
+    /// Gets all caseworker roles asynchronous returns internal server error on exception test.
+    /// </summary>
+    [TestMethod, TestCategory("UnitTest")]
+    public async Task GetAllCaseworkerRolesAsync_ReturnsInternalServerError_OnException_Test()
+    {
+        // Arrange
+        this._taskServiceMock
+            .Setup(service => service.GetAllStatusesAsync())
+            .ThrowsAsync(new Exception("Test exception"));
+
+        // Act
+        var result = await this._taskController.GetAllStatusesAsync();
+
+        // Assert
+        var statusCodeResult = result as ObjectResult;
+        Assert.IsNotNull(statusCodeResult);
+        Assert.AreEqual(500, statusCodeResult.StatusCode);
+        this._taskServiceMock.Verify(service => service.GetAllStatusesAsync(), Times.Once);
+    }
 }

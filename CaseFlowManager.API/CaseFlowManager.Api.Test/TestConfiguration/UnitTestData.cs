@@ -97,5 +97,57 @@ namespace IMotionSoftware.CaseFlowManager.Api.Test.TestConfiguration
                 }
             };
         }
+
+        /// <summary>
+        /// Gets all statuses.
+        /// </summary>
+        /// <returns>The <see cref="IEnumerable{T}"/></returns>
+        public static IEnumerable<Status> GetAllStatuses()
+        {
+            return new List<Status>
+            {
+                new Status
+                {
+                    Id = 1,
+                    Title = "Open"
+                },
+                new Status
+                {
+                    Id = 2,
+                    Title = "In Progress"
+                },
+                new Status
+                {
+                    Id = 3,
+                    Title = "Closed"
+                }
+            };
+        }
+
+        /// <summary>
+        /// Gets all status dto.
+        /// </summary>
+        /// <returns>The <see cref="IEnumerable{T}"/></returns>
+        public static IEnumerable<StatusDto> GetAllStatusDto()
+        {
+            return new List<StatusDto>
+            {
+                new StatusDto
+                {
+                    Id = 4,
+                    Title = "Awaiting Hearing"
+                },
+                new StatusDto
+                {
+                    Id = 5,
+                    Title = "Scheduled Hearing"
+                },
+                new StatusDto
+                {
+                    Id = 6,
+                    Title = "Transferred"
+                }
+            };
+        }
     }
 }

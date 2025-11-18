@@ -1,6 +1,7 @@
 ﻿using CaseFlowManager.API.Service.Interfaces;
 using CaseFlowManager.API.Service.Utilities;
 using IMotionSoftware.CaseFlowDataPackage.Interfaces;
+using IMotionSoftware.CaseFlowManager.API.Models.Models;
 using IMotionSoftware.CaseFlowManager.API.Models.Request;
 
 namespace CaseFlowManager.API.Service.Services
@@ -33,6 +34,17 @@ namespace CaseFlowManager.API.Service.Services
         public async Task<int> CreateTaskAsync(CreateTaskRequest createTaskRequest)
         {
             return await this._taskRepo.CreateTaskAsync(createTaskRequest.ToCreateTaskParameter());
+        }
+
+        /// <summary>
+        /// Gets all statuses asynchronous.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="IEnumerable{T}" />
+        /// </returns>
+        public async Task<IEnumerable<Status>> GetAllStatusesAsync()
+        {
+            return await this._taskRepo.GetAllStatusesAsync().Result.ToStatuses();
         }
     }
 }

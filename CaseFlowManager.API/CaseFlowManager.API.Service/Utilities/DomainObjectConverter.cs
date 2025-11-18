@@ -79,5 +79,24 @@ namespace CaseFlowManager.API.Service.Utilities
 
             return roles;
         }
+
+        /// <summary>
+        /// Converts to statuses.
+        /// </summary>
+        /// <param name="statuses">The statuses.</param>
+        /// <returns>The <see cref="Task{TResult}"/></returns>
+        public async static Task<IEnumerable<Status>> ToStatuses(this IEnumerable<StatusDto> statuses)
+        {
+            var statusList = new List<Status>();
+            foreach (var status in statuses)
+            {
+                statusList.Add(new Status
+                {
+                    Id = status.Id,
+                    Title = status.Title
+                });
+            };
+            return statusList;
+        }
     }
 }

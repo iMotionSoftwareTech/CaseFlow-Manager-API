@@ -56,5 +56,25 @@ namespace IMotionSoftware.CaseFlowManager.API.Controllers
 
             return Ok();
         }
+
+        /// <summary>
+        /// Gets all statuses asynchronous.
+        /// </summary>
+        /// <returns>The <see cref="Task{TResult}"/></returns>
+        [HttpGet]
+        [Route("GetAllStatusesAsync")]
+        public async Task<ActionResult> GetAllStatusesAsync()
+        {
+            try
+            {
+                var result = await this._taskService.GetAllStatusesAsync();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while retrieving statuses.");
+                return StatusCode(500, "Internal server error");
+            }
+        }
     }
 }

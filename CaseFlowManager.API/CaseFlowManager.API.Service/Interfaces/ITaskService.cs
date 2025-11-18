@@ -1,4 +1,5 @@
-﻿using IMotionSoftware.CaseFlowManager.API.Models.Request;
+﻿using IMotionSoftware.CaseFlowManager.API.Models.Models;
+using IMotionSoftware.CaseFlowManager.API.Models.Request;
 
 namespace CaseFlowManager.API.Service.Interfaces
 {
@@ -13,5 +14,11 @@ namespace CaseFlowManager.API.Service.Interfaces
         /// <param name="createTaskRequest">The create task request.</param>
         /// <returns></returns>
         Task<int> CreateTaskAsync(CreateTaskRequest createTaskRequest);
+
+        /// <summary>
+        /// Gets all statuses asynchronous.
+        /// </summary>
+        /// <returns>The <see cref="IEnumerable{T}"/></returns>
+        Task<IEnumerable<Status>> GetAllStatusesAsync();
     }
 }

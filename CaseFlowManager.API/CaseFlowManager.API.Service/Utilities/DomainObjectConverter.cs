@@ -135,5 +135,29 @@ namespace CaseFlowManager.API.Service.Utilities
             };
             return taskList;
         }
+
+        /// <summary>
+        /// Converts to casetaskstatuses.
+        /// </summary>
+        /// <param name="taskStatuses">The task statuses.</param>
+        /// <returns>The <see cref="IEnumerable{T}"/></returns>
+        public static IEnumerable<CaseTaskStatus> ToCaseTaskStatuses(this IEnumerable<TaskStatusDto> taskStatuses)
+        {
+            var caseTaskStatusList = new List<CaseTaskStatus>();
+            foreach (var caseTaskStatus in taskStatuses)
+            {
+                caseTaskStatusList.Add(new CaseTaskStatus
+                {
+                    Id = caseTaskStatus.Id,
+                    CaseWorker = caseTaskStatus.CaseWorker,
+                    TaskId = caseTaskStatus.TaskId,
+                    StatusId = caseTaskStatus.StatusId,
+                    Status = caseTaskStatus.Status,
+                    Notes = caseTaskStatus.Notes,
+                    LogDateTime = caseTaskStatus.LogDateTime
+                });
+            };
+            return caseTaskStatusList;
+        }
     }
 }

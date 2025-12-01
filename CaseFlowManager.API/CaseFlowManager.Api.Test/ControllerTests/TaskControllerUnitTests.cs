@@ -181,4 +181,44 @@ public class TaskControllerUnitTests
         Assert.AreEqual(500, statusCodeResult.StatusCode);
         this._taskServiceMock.Verify(service => service.GetAllTasksAsync(It.IsAny<int>(), It.IsAny<int>()), Times.Once);
     }
+
+    /// <summary>
+    /// Gets the task with statuses by identifier asynchronous returns ok test.
+    /// </summary>
+    [TestMethod, TestCategory("UnitTest")]
+    public async Task GetTaskWithStatusesByIdAsync_ReturnsOk_Test()
+    {
+        // Arrange
+        var tasks = UnitTestData.GetTaskStatuses();
+        this._taskServiceMock
+            .Setup(service => service.GetTaskWithStatusesByIdAsync(It.IsAny<int>())).ReturnsAsync(tasks);
+
+        // Act
+        var result = await this._taskController.GetTaskWithStatusesByIdAsync(1);
+
+        // Assert
+        Assert.IsTrue(result is OkObjectResult);
+        this._taskServiceMock.Verify(service => service.GetTaskWithStatusesByIdAsync(It.IsAny<int>()), Times.Once);
+    }
+
+    /// <summary>
+    /// Gets the task with statuses by identifier asynchronous returns internal server error on exception test.
+    /// </summary>
+    [TestMethod, TestCategory("UnitTest")]
+    public async Task GetTaskWithStatusesByIdAsync_ReturnsInternalServerError_OnException_Test()
+    {
+        // Arrange
+        this._taskServiceMock
+            .Setup(service => service.GetTaskWithStatusesByIdAsync(It.IsAny<int>()))
+            .ThrowsAsync(new Exception("Test exception"));
+
+        // Act
+        var result = await this._taskController.GetTaskWithStatusesByIdAsync(1);
+
+        // Assert
+        var statusCodeResult = result as ObjectResult;
+        Assert.IsNotNull(statusCodeResult);
+        Assert.AreEqual(500, statusCodeResult.StatusCode);
+        this._taskServiceMock.Verify(service => service.GetTaskWithStatusesByIdAsync(It.IsAny<int>()), Times.Once);
+    }
 }

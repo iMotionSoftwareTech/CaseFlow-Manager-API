@@ -38,7 +38,7 @@ namespace IMotionSoftware.CaseFlowManager.API.Controllers
         /// Creates the case task asynchronous.
         /// </summary>
         /// <param name="createTaskRequest">The create task request.</param>
-        /// <returns></returns>
+        /// <returns>The <see cref="Task{TResult}"/></returns>
         [HttpPost]
         [Route("CreateCaseTaskAsync")]
         public async Task<ActionResult> CreateCaseTaskAsync(CreateTaskRequest createTaskRequest)
@@ -84,7 +84,7 @@ namespace IMotionSoftware.CaseFlowManager.API.Controllers
         /// <param name="getAllTasksRequest">The get all tasks request.</param>
         /// <returns>The <see cref="Task{TResult}"/></returns>
         [HttpGet]
-        [Route("GetAllCaseTasksAsync")]
+        [Route("GetAllCaseTasksAsync/{pageNumber:int}/{pageSize:int}")]
         public async Task<ActionResult> GetAllCaseTasksAsync(int pageNumber, int pageSize)
         {
             try
@@ -95,6 +95,27 @@ namespace IMotionSoftware.CaseFlowManager.API.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while retrieving case tasks.");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        /// <summary>
+        /// Gets the task with statuses by identifier asynchronous.
+        /// </summary>
+        /// <param name="taskId">The task identifier.</param>
+        /// <returns>The <see cref="Task{TResult}"/></returns>
+        [HttpGet]
+        [Route("GetTaskWithStatusesByIdAsync/{taskId:int}")]
+        public async Task<ActionResult> GetTaskWithStatusesByIdAsync(int taskId)
+        {
+            try
+            {
+                var result = await this._taskService.GetTaskWithStatusesByIdAsync(taskId);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while retrieving task with statuses.");
                 return StatusCode(500, "Internal server error");
             }
         }

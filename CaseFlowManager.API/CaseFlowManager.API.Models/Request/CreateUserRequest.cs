@@ -50,7 +50,7 @@ namespace IMotionSoftware.CaseFlowManager.API.Models.Request
         /// The password hash.
         /// </value>
         [Required]
-        public byte[] PasswordHash { get; set; }
+        public string PasswordHash { get; set; }
 
         /// <summary>
         /// Gets or sets the password salt.
@@ -59,7 +59,7 @@ namespace IMotionSoftware.CaseFlowManager.API.Models.Request
         /// The password salt.
         /// </value>
         [Required]
-        public byte[] PasswordSalt { get; set; }
+        public string PasswordSalt { get; set; }
 
         /// <summary>
         /// Gets or sets the created date time.

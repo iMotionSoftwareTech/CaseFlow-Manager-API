@@ -149,5 +149,63 @@ namespace IMotionSoftware.CaseFlowManager.Api.Test.TestConfiguration
                 }
             };
         }
+
+        /// <summary>
+        /// Gets all case tasks.
+        /// </summary>
+        /// <returns>The <see cref="TaskRecord"/></returns>
+        public static TaskRecord GetAllCaseTasks()
+        {
+            return new TaskRecord
+            {
+                TotalNoOfRecords = 2,
+                Tasks = new List<CaseTask>
+                {
+                    new CaseTask
+                    {
+                        TaskId = 1,
+                        Title = "Task 1",
+                        Description = "Description for Task 1",
+                        DueDateTime = DateTime.UtcNow.AddDays(3),
+                        Status = "Open"
+                    },
+                    new CaseTask
+                    {
+                        TaskId = 2,
+                        Title = "Task 2",
+                        Description = "Description for Task 2",
+                        DueDateTime = DateTime.UtcNow.AddDays(5),
+                        Status = "In Progress"
+                    }
+                }
+            };
+        }
+
+        /// <summary>
+        /// Gets all tasks.
+        /// </summary>
+        /// <returns>The <see cref="IEnumerable{T}"/></returns>
+        public static IEnumerable<TaskDto> GetAllTasks()
+        {
+            return new List<TaskDto>
+            {
+                new TaskDto
+                {
+                    TaskId = 3,
+                    Title = "Task 3",
+                    Description = "Description for Task 3",
+                    DueDateTime = DateTime.UtcNow.AddDays(4),
+                    Status = "Open"
+                },
+                new TaskDto
+                {
+                    TaskId = 4,
+                    Title = "Task 4",
+                    Description = "Description for Task 4",
+                    DueDateTime = DateTime.UtcNow.AddDays(6),
+                    Status = "In Progress"
+                }
+            };
+        }
     }
 }

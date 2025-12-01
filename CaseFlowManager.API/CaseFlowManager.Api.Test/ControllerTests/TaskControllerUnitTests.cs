@@ -1,3 +1,4 @@
+using Azure.Core;
 using CaseFlowManager.API.Service.Interfaces;
 using IMotionSoftware.CaseFlowManager.Api.Test.TestConfiguration;
 using IMotionSoftware.CaseFlowManager.API.Controllers;
@@ -139,5 +140,45 @@ public class TaskControllerUnitTests
         Assert.IsNotNull(statusCodeResult);
         Assert.AreEqual(500, statusCodeResult.StatusCode);
         this._taskServiceMock.Verify(service => service.GetAllStatusesAsync(), Times.Once);
+    }
+
+    /// <summary>
+    /// Gets all case tasks asynchronous returns ok test.
+    /// </summary>
+    [TestMethod, TestCategory("UnitTest")]
+    public async Task GetAllCaseTasksAsync_ReturnsOk_Test()
+    {
+        // Arrange
+        var tasks = UnitTestData.GetAllCaseTasks();
+        this._taskServiceMock
+            .Setup(service => service.GetAllTasksAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(tasks);
+
+        // Act
+        var result = await this._taskController.GetAllCaseTasksAsync(1, 10);
+
+        // Assert
+        Assert.IsTrue(result is OkObjectResult);
+        this._taskServiceMock.Verify(service => service.GetAllTasksAsync(It.IsAny<int>(), It.IsAny<int>()), Times.Once);
+    }
+
+    /// <summary>
+    /// Gets all case tasks asynchronous returns internal server error on exception test.
+    /// </summary>
+    [TestMethod, TestCategory("UnitTest")]
+    public async Task GetAllCaseTasksAsync_ReturnsInternalServerError_OnException_Test()
+    {
+        // Arrange
+        this._taskServiceMock
+            .Setup(service => service.GetAllTasksAsync(It.IsAny<int>(), It.IsAny<int>()))
+            .ThrowsAsync(new Exception("Test exception"));
+
+        // Act
+        var result = await this._taskController.GetAllCaseTasksAsync(0, 0);
+
+        // Assert
+        var statusCodeResult = result as ObjectResult;
+        Assert.IsNotNull(statusCodeResult);
+        Assert.AreEqual(500, statusCodeResult.StatusCode);
+        this._taskServiceMock.Verify(service => service.GetAllTasksAsync(It.IsAny<int>(), It.IsAny<int>()), Times.Once);
     }
 }

@@ -3,6 +3,7 @@ using IMotionSoftware.CaseFlowDataPackage.DomainObjects.ParameterObjects;
 using IMotionSoftware.CaseFlowDataPackage.Interfaces;
 using IMotionSoftware.CaseFlowManager.Api.Test.TestConfiguration;
 using Moq;
+using System.Threading.Tasks;
 
 namespace IMotionSoftware.CaseFlowManager.Api.Test
 {
@@ -69,6 +70,29 @@ namespace IMotionSoftware.CaseFlowManager.Api.Test
             // Assert
             Assert.IsNotNull(result);
             this._taskRepoMock.Verify(repo => repo.GetAllStatusesAsync(), Times.Once);
+        }
+
+        /// <summary>
+        /// Gets all tasks asynchronous is successfull test.
+        /// </summary>
+        [TestMethod, TestCategory("UnitTest")]
+        public async Task GetAllTasksAsync_IsSuccessfull_Test()
+        {
+            // Arrange
+            var response = new
+            {
+                TotalNoOfRecords = 2,
+                Tasks = UnitTestData.GetAllTasks()
+            };
+            this._taskRepoMock
+                .Setup(repo => repo.GetAllTasksAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync((response.TotalNoOfRecords, response.Tasks));
+
+            // Act
+            var result = await this._taskService.GetAllTasksAsync(1, 10);
+
+            // Assert
+            Assert.IsNotNull(result);
+            this._taskRepoMock.Verify(repo => repo.GetAllTasksAsync(It.IsAny<int>(), It.IsAny<int>()), Times.Once);
         }
     }
 }

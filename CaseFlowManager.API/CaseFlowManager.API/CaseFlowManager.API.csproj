@@ -18,7 +18,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Configs\SwaggerConfig.cs" />
+    <Compile Remove="Configs\**" />
+    <Content Remove="Configs\**" />
+    <EmbeddedResource Remove="Configs\**" />
+    <None Remove="Configs\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -30,10 +33,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CaseFlowManager.API.Service\CaseFlowManager.API.Service.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Configs\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -53,8 +53,8 @@ namespace CaseFlowManager.API.Service.Utilities
                 Forename = createUserRequest.Forename,
                 Surname = createUserRequest.Surname,
                 Email = createUserRequest.Email,
-                PasswordHash = createUserRequest.PasswordHash,
-                PasswordSalt = createUserRequest.PasswordSalt,
+                PasswordHash = DataTypeConverters.VarBinaryStringToBytes(createUserRequest.PasswordHash),
+                PasswordSalt = DataTypeConverters.VarBinaryStringToBytes(createUserRequest.PasswordSalt),
                 CreatedDateTime = createUserRequest.CreatedDateTime
             };
         }
@@ -85,7 +85,7 @@ namespace CaseFlowManager.API.Service.Utilities
         /// </summary>
         /// <param name="statuses">The statuses.</param>
         /// <returns>The <see cref="Task{TResult}"/></returns>
-        public async static Task<IEnumerable<Status>> ToStatuses(this IEnumerable<StatusDto> statuses)
+        public static IEnumerable<Status> ToStatuses(this IEnumerable<StatusDto> statuses)
         {
             var statusList = new List<Status>();
             foreach (var status in statuses)
@@ -97,6 +97,43 @@ namespace CaseFlowManager.API.Service.Utilities
                 });
             };
             return statusList;
+        }
+
+        /// <summary>
+        /// Converts to taskrecord.
+        /// </summary>
+        /// <param name="totalRecords">The total records.</param>
+        /// <param name="tasks">The tasks.</param>
+        /// <returns>The <see cref="TaskRecord"/></returns>
+        public static TaskRecord ToTaskRecord(this int totalRecords, IEnumerable<TaskDto> tasks)
+        {
+            return new TaskRecord
+            {
+                TotalNoOfRecords = totalRecords,
+                Tasks = tasks.ToCaseTasks()
+            };
+        } 
+
+        /// <summary>
+        /// Converts to casetasks.
+        /// </summary>
+        /// <param name="tasks">The tasks.</param>
+        /// <returns>The <see cref="IEnumerable{T}"/></returns>
+        public static IEnumerable<CaseTask> ToCaseTasks(this IEnumerable<TaskDto> tasks) 
+        { 
+            var taskList = new List<CaseTask>();
+            foreach (var task in tasks)
+            {
+                taskList.Add(new CaseTask
+                {
+                    TaskId = task.TaskId,
+                    Title = task.Title,
+                    Description = task.Description,
+                    Status = task.Status,
+                    DueDateTime = task.DueDateTime
+                });
+            };
+            return taskList;
         }
     }
 }

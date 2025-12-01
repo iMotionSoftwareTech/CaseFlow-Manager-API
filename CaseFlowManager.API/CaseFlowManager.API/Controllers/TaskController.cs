@@ -1,4 +1,5 @@
 ﻿using CaseFlowManager.API.Service.Interfaces;
+using IMotionSoftware.CaseFlowManager.API.Models.Models;
 using IMotionSoftware.CaseFlowManager.API.Models.Request;
 using Microsoft.AspNetCore.Mvc;
 
@@ -73,6 +74,27 @@ namespace IMotionSoftware.CaseFlowManager.API.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while retrieving statuses.");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        /// <summary>
+        /// Gets all case tasks asynchronous.
+        /// </summary>
+        /// <param name="getAllTasksRequest">The get all tasks request.</param>
+        /// <returns>The <see cref="Task{TResult}"/></returns>
+        [HttpGet]
+        [Route("GetAllCaseTasksAsync")]
+        public async Task<ActionResult> GetAllCaseTasksAsync(int pageNumber, int pageSize)
+        {
+            try
+            {
+                var result = await this._taskService.GetAllTasksAsync(pageNumber, pageSize);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while retrieving case tasks.");
                 return StatusCode(500, "Internal server error");
             }
         }

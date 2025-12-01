@@ -44,7 +44,22 @@ namespace CaseFlowManager.API.Service.Services
         /// </returns>
         public async Task<IEnumerable<Status>> GetAllStatusesAsync()
         {
-            return await this._taskRepo.GetAllStatusesAsync().Result.ToStatuses();
+            var result = await this._taskRepo.GetAllStatusesAsync();
+            return result.ToStatuses();
+        }
+
+        /// <summary>
+        /// Gets all tasks asynchronous.
+        /// </summary>
+        /// <param name="pageNumber">The page number.</param>
+        /// <param name="pageSize">Size of the page.</param>
+        /// <returns>
+        /// The <see cref="Task{TResult}" />
+        /// </returns>
+        public async Task<TaskRecord> GetAllTasksAsync(int pageNumber, int pageSize)
+        {
+            var (total, tasks) = await this._taskRepo.GetAllTasksAsync(pageNumber, pageSize);
+            return total.ToTaskRecord(tasks);
         }
     }
 }

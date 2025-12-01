@@ -94,5 +94,24 @@ namespace IMotionSoftware.CaseFlowManager.Api.Test
             Assert.IsNotNull(result);
             this._taskRepoMock.Verify(repo => repo.GetAllTasksAsync(It.IsAny<int>(), It.IsAny<int>()), Times.Once);
         }
+
+        /// <summary>
+        /// Gets the task with statuses by identifier asynchronous is successfull test.
+        /// </summary>
+        [TestMethod, TestCategory("UnitTest")]
+        public async Task GetTaskWithStatusesByIdAsync_IsSuccessfull_Test()
+        {
+            // Arrange
+            var response = UnitTestData.GetTaskStatusDtos();
+            this._taskRepoMock
+                .Setup(repo => repo.GetTaskWithStatusesByIdAsync(It.IsAny<int>())).ReturnsAsync(response);
+
+            // Act
+            var result = await this._taskService.GetTaskWithStatusesByIdAsync(1);
+
+            // Assert
+            Assert.IsNotNull(result);
+            this._taskRepoMock.Verify(repo => repo.GetTaskWithStatusesByIdAsync(It.IsAny<int>()), Times.Once);
+        }
     }
 }

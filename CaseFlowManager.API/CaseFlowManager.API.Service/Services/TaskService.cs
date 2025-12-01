@@ -61,5 +61,18 @@ namespace CaseFlowManager.API.Service.Services
             var (total, tasks) = await this._taskRepo.GetAllTasksAsync(pageNumber, pageSize);
             return total.ToTaskRecord(tasks);
         }
+
+        /// <summary>
+        /// Gets the task with statuses by identifier asynchronous.
+        /// </summary>
+        /// <param name="taskId">The task identifier.</param>
+        /// <returns>
+        /// The <see cref="Task{T}" />
+        /// </returns>
+        public async Task<IEnumerable<CaseTaskStatus>> GetTaskWithStatusesByIdAsync(int taskId)
+        {
+            var result = await this._taskRepo.GetTaskWithStatusesByIdAsync(taskId);
+            return result.ToCaseTaskStatuses();
+        }
     }
 }

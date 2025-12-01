@@ -207,5 +207,67 @@ namespace IMotionSoftware.CaseFlowManager.Api.Test.TestConfiguration
                 }
             };
         }
+
+        /// <summary>
+        /// Gets the task status dtos.
+        /// </summary>
+        /// <returns>The <see cref="IEnumerable{T}"/></returns>
+        public static IEnumerable<TaskStatusDto> GetTaskStatusDtos()
+        {
+            return new List<TaskStatusDto>
+            {
+                new TaskStatusDto
+                {
+                    Id = 1,
+                    CaseWorker = "John Doe",
+                    TaskId = 1,
+                    StatusId = 1,
+                    Status = "Open",
+                    Notes = "Open case created",
+                    LogDateTime = DateTime.UtcNow.AddDays(-2)
+                },
+                new TaskStatusDto
+                {
+                    Id = 2,
+                    CaseWorker = "Jane Doe",
+                    TaskId = 2,
+                    StatusId = 2,
+                    Status = "In Progress",
+                    Notes = "Case in progress",
+                    LogDateTime = DateTime.UtcNow.AddDays(-1)
+                }
+            };
+        }
+
+        /// <summary>
+        /// Gets the task statuses.
+        /// </summary>
+        /// <returns>The <see cref="IEnumerable{T}"/></returns>
+        public static IEnumerable<CaseTaskStatus> GetTaskStatuses()
+        {
+            return new List<CaseTaskStatus>
+            {
+                new CaseTaskStatus
+                {
+                    Id = 1,
+                    CaseWorker = "Bob Wilkinson",
+                    TaskId = 1,
+                    StatusId = 2,
+                    Status = "In Progress",
+                    Notes = "Case in progress",
+                    LogDateTime = DateTime.UtcNow.AddDays(2)
+                },
+                new CaseTaskStatus
+                {
+                    Id = 2,
+                    CaseWorker = "Fred Cotteridge",
+                    TaskId = 2,
+                    StatusId = 3,
+                    Status = "Hearing Scheduled",
+                    Notes = "Case hearing scheduled",
+                    LogDateTime = DateTime.UtcNow.AddDays(1)
+                }
+            };
+        }
     }
 }

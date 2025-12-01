@@ -1,6 +1,7 @@
 ﻿using CaseFlowManager.API.Service.Interfaces;
 using CaseFlowManager.API.Service.Utilities;
 using IMotionSoftware.CaseFlowDataPackage.Interfaces;
+using IMotionSoftware.CaseFlowManager.API.Models.Models;
 using IMotionSoftware.CaseFlowManager.API.Models.Request;
 
 namespace CaseFlowManager.API.Service.Services
@@ -34,8 +35,20 @@ namespace CaseFlowManager.API.Service.Services
         /// </returns>
         public async Task<int> CreateUserAsync(CreateUserRequest createUserRequest)
         {
-            var result = await this._userRepo.CreateUserAsync(createUserRequest.ToCreateUserParameter());
-            return result;
+            return await this._userRepo.CreateUserAsync(createUserRequest.ToCreateUserParameter());
+        }
+
+        /// <summary>
+        /// Gets the user asynchronous.
+        /// </summary>
+        /// <param name="email">The email.</param>
+        /// <returns>
+        /// The <see cref="Task{TResult}" />
+        /// </returns>
+        public async Task<UserDetail> GetUserAsync(string email)
+        {
+            var result = await this._userRepo.GetUserAsync(email);
+            return result.ToUserDetail();
         }
     }
 }

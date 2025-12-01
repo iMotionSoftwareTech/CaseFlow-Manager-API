@@ -159,5 +159,26 @@ namespace CaseFlowManager.API.Service.Utilities
             };
             return caseTaskStatusList;
         }
+
+        /// <summary>
+        /// Converts to userdetail.
+        /// </summary>
+        /// <param name="userDetail">The user detail.</param>
+        /// <returns>The <see cref="UserDetail"/></returns>
+        public static UserDetail ToUserDetail(this UserDetailDto userDetail) 
+        {
+            return new UserDetail
+            {
+                CaseworkerId = userDetail.CaseworkerId,
+                CaseworkerRoleId = userDetail.CaseworkerRoleId,
+                Role = userDetail.Role,
+                Email = userDetail.Email,
+                Username = userDetail.Username,
+                Forename = userDetail.Forename,
+                Surname = userDetail.Surname,
+                PasswordAttempt = userDetail.PasswordAttempt,
+                IsLocked = userDetail.IsLocked
+            };
+        }
     }
 }

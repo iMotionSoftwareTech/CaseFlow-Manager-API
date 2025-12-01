@@ -50,4 +50,23 @@ public class UserServiceUnitTests
         Assert.AreEqual(1, result);
         this._userRepoMock.Verify(repo => repo.CreateUserAsync(It.IsAny<CreateUserParameter>()), Times.Once);
     }
+
+    /// <summary>
+    /// Gets the user asynchronous is successfull test.
+    /// </summary>
+    [TestMethod, TestCategory("UnitTest")]
+    public async Task GetUserAsync_IsSuccessfull_Test()
+    {
+        // Arrange
+        var response = UnitTestData.GetUserDetailDto();
+        this._userRepoMock
+            .Setup(repo => repo.GetUserAsync(It.IsAny<string>())).ReturnsAsync(response);
+
+        // Act
+        var result = await this._userService.GetUserAsync("testuser@testsite.com");
+
+        // Assert
+        Assert.IsNotNull(result);
+        this._userRepoMock.Verify(repo => repo.GetUserAsync(It.IsAny<string>()), Times.Once);
+    }
 }

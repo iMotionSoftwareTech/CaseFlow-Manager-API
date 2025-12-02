@@ -1,4 +1,5 @@
-﻿using IMotionSoftware.CaseFlowManager.API.Models.Models;
+﻿using IMotionSoftware.CaseFlowDataPackage.DomainObjects.ParameterObjects;
+using IMotionSoftware.CaseFlowManager.API.Models.Models;
 using IMotionSoftware.CaseFlowManager.API.Models.Request;
 
 namespace CaseFlowManager.API.Service.Interfaces
@@ -44,5 +45,12 @@ namespace CaseFlowManager.API.Service.Interfaces
         /// <param name="logStatusRequest">The log status request.</param>
         /// <returns>The <see cref="Task{TResult}"/></returns>
         Task<int> LogTaskStatusAsync(LogStatusRequest logStatusRequest);
+
+        /// <summary>
+        /// Logs the task statuses asynchronous.
+        /// </summary>
+        /// <param name="logTaskStatusParameters">The log task status parameters.</param>
+        /// <returns>The <see cref="Task{TResult}"/></returns>
+        Task<int> LogTaskStatusesAsync(IEnumerable<LogStatusRequest> logTaskStatusParameters);
     }
 }

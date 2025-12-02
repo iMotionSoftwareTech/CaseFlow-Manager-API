@@ -86,5 +86,17 @@ namespace CaseFlowManager.API.Service.Services
         {
             return await this._taskRepo.LogTaskStatusAsync(logStatusRequest.ToLogStatusParameter());
         }
+
+        /// <summary>
+        /// Logs the task statuses asynchronous.
+        /// </summary>
+        /// <param name="logTaskStatusParameters">The log task status parameters.</param>
+        /// <returns>
+        /// The <see cref="Task{TResult}" />
+        /// </returns>
+        public async Task<int> LogTaskStatusesAsync(IEnumerable<LogStatusRequest> logTaskStatusParameters)
+        {
+            return await this._taskRepo.LogTaskStatusesAsync(logTaskStatusParameters.ToLogStatusParameterList());
+        }
     }
 }

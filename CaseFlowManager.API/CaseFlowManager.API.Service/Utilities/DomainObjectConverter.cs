@@ -197,5 +197,28 @@ namespace CaseFlowManager.API.Service.Utilities
                 LogDateTime = logStatusRequest.LogDateTime
             };
         }
+
+        /// <summary>
+        /// Converts to logstatusparameterlist.
+        /// </summary>
+        /// <param name="taskStatuses">The task statuses.</param>
+        /// <returns>The <see cref="IEnumerable{T}"/></returns>
+        public static IEnumerable<LogTaskStatusParameter> ToLogStatusParameterList(this IEnumerable<LogStatusRequest> taskStatuses)
+        {
+            var caseTaskStatusList = new List<LogTaskStatusParameter>();
+            foreach (var taskStatus in taskStatuses)
+            {
+                caseTaskStatusList.Add(new LogTaskStatusParameter
+                {
+                    TaskId = taskStatus.TaskId,
+                    StatusId = taskStatus.StatusId,
+                    CaseworkerId = taskStatus.CaseworkerId,
+                    Notes = taskStatus.Notes,
+                    LogDateTime = taskStatus.LogDateTime
+                });
+            }
+            
+            return caseTaskStatusList;
+        }
     }
 }

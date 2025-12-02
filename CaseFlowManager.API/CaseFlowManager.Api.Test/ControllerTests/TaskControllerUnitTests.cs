@@ -282,4 +282,66 @@ public class TaskControllerUnitTests
         Assert.AreEqual(500, statusCodeResult.StatusCode);
         this._taskServiceMock.Verify(service => service.LogTaskStatusAsync(It.IsAny<LogStatusRequest>()), Times.Once);
     }
+
+    /// <summary>
+    /// Logs the bulk task statuses asynchronous returns ok test.
+    /// </summary>
+    [TestMethod, TestCategory("UnitTest")]
+    public async Task LogBulkTaskStatusesAsync_ReturnsOk_Test()
+    {
+        // Arrange
+        var parameter = UnitTestData.GetTaskStatusRequests();
+        this._taskServiceMock
+            .Setup(service => service.LogTaskStatusesAsync(It.IsAny<IEnumerable<LogStatusRequest>>()))
+            .ReturnsAsync(-1);
+
+        // Act
+        var result = await this._taskController.LogBulkTaskStatusesAsync(parameter);
+
+        // Assert
+        Assert.IsTrue(result is OkResult);
+        this._taskServiceMock.Verify(service => service.LogTaskStatusesAsync(It.IsAny<IEnumerable<LogStatusRequest>>()), Times.Once);
+    }
+
+    /// <summary>
+    /// Logs the bulk task statuses asynchronous returns bad request test.
+    /// </summary>
+    [TestMethod, TestCategory("UnitTest")]
+    public async Task LogBulkTaskStatusesAsync_ReturnsBadRequest_Test()
+    {
+        // Arrange
+        var parameter = UnitTestData.GetTaskStatusRequests();
+        this._taskServiceMock
+            .Setup(service => service.LogTaskStatusesAsync(It.IsAny<IEnumerable<LogStatusRequest>>()))
+            .ReturnsAsync(0);
+
+        // Act
+        var result = await this._taskController.LogBulkTaskStatusesAsync(parameter);
+
+        // Assert
+        Assert.IsTrue(result is BadRequestObjectResult);
+        this._taskServiceMock.Verify(service => service.LogTaskStatusesAsync(It.IsAny<IEnumerable<LogStatusRequest>>()), Times.Once);
+    }
+
+    /// <summary>
+    /// Logs the bulk task statuses asynchronous throws exception test.
+    /// </summary>
+    [TestMethod, TestCategory("UnitTest")]
+    public async Task LogBulkTaskStatusesAsync_ThrowsException_Test()
+    {
+        // Arrange
+        var parameter = UnitTestData.GetTaskStatusRequests();
+        this._taskServiceMock
+            .Setup(service => service.LogTaskStatusesAsync(It.IsAny<IEnumerable<LogStatusRequest>>()))
+            .ThrowsAsync(new Exception("Test exception"));
+
+        // Act
+        var result = await this._taskController.LogBulkTaskStatusesAsync(parameter);
+
+        // Assert
+        var statusCodeResult = result as ObjectResult;
+        Assert.IsNotNull(statusCodeResult);
+        Assert.AreEqual(500, statusCodeResult.StatusCode);
+        this._taskServiceMock.Verify(service => service.LogTaskStatusesAsync(It.IsAny<IEnumerable<LogStatusRequest>>()), Times.Once);
+    }
 }

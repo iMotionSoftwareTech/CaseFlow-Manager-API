@@ -50,5 +50,17 @@ namespace CaseFlowManager.API.Service.Services
             var result = await this._userRepo.GetUserAsync(email);
             return result.ToUserDetail();
         }
+
+        /// <summary>
+        /// Updates the password attempt asynchronous.
+        /// </summary>
+        /// <param name="caseworkerId">The caseworker identifier.</param>
+        /// <returns>
+        /// The <see cref="Task{TResult}" />
+        /// </returns>
+        public async Task<int> UpdatePasswordAttemptAsync(int caseworkerId)
+        {
+            return await this._userRepo.UpdatePasswordAttemptAsync(caseworkerId);
+        }
     }
 }

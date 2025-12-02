@@ -69,4 +69,22 @@ public class UserServiceUnitTests
         Assert.IsNotNull(result);
         this._userRepoMock.Verify(repo => repo.GetUserAsync(It.IsAny<string>()), Times.Once);
     }
+
+    /// <summary>
+    /// Updates the password attempt asynchronous is successfull test.
+    /// </summary>
+    [TestMethod, TestCategory("UnitTest")]
+    public async Task UpdatePasswordAttemptAsync_IsSuccessfull_Test()
+    {
+        // Arrange
+        this._userRepoMock
+            .Setup(repo => repo.UpdatePasswordAttemptAsync(It.IsAny<int>())).ReturnsAsync(-1);
+
+        // Act
+        var result = await this._userService.UpdatePasswordAttemptAsync(1);
+
+        // Assert
+        Assert.AreEqual(-1, result);
+        this._userRepoMock.Verify(repo => repo.UpdatePasswordAttemptAsync(It.IsAny<int>()), Times.Once);
+    }
 }

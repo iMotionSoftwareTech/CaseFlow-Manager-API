@@ -77,5 +77,28 @@ namespace IMotionSoftware.CaseFlowManager.API.Controllers
                 return StatusCode(500, "Internal server error");
             }
         }
+
+        /// <summary>
+        /// Updates the password attempt.
+        /// </summary>
+        /// <param name="caseworkerId">The caseworker identifier.</param>
+        /// <returns>The <see cref="Task{TResult}"/></returns>
+        [HttpPut]
+        [Route("UpdatePasswordAttempt/{caseworkerId}")]
+        public async Task<ActionResult> UpdatePasswordAttempt(int caseworkerId)
+        {
+            try
+            {
+                var result = await this._userService.UpdatePasswordAttemptAsync(caseworkerId);
+                if (result != -1)
+                    return BadRequest("Updating password attempt failed.");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while updating password attempt.");
+                return StatusCode(500, "Internal server error");
+            }
+            return Ok();
+        }
     }
 }

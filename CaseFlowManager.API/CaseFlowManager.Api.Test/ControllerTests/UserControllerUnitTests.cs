@@ -99,4 +99,44 @@ public class UserControllerUnitTests
         Assert.AreEqual(500, statusCodeResult.StatusCode);
         this._userServiceMock.Verify(service => service.CreateUserAsync(It.IsAny<CreateUserRequest>()), Times.Once);
     }
+
+    /// <summary>
+    /// Gets the user returns ok test.
+    /// </summary>
+    [TestMethod, TestCategory("UnitTest")]
+    public async Task GetUser_ReturnsOk_Test()
+    {
+        // Arrange
+        var response = UnitTestData.GetUserDetail();
+        this._userServiceMock
+            .Setup(service => service.GetUserAsync(It.IsAny<string>())).ReturnsAsync(response);
+
+        // Act
+        var result = await this._userController.GetUser("testsite@testsite.com");
+
+        // Assert
+        Assert.IsTrue(result is OkObjectResult);
+        this._userServiceMock.Verify(service => service.GetUserAsync(It.IsAny<string>()), Times.Once);
+    }
+
+    /// <summary>
+    /// Gets the user returns internal server error on exception test.
+    /// </summary>
+    [TestMethod, TestCategory("UnitTest")]
+    public async Task GetUser_ReturnsInternalServerError_OnException_Test()
+    {
+        // Arrange
+        this._userServiceMock
+            .Setup(service => service.GetUserAsync(It.IsAny<string>()))
+            .ThrowsAsync(new Exception("Test exception"));
+
+        // Act
+        var result = await this._userController.GetUser(string.Empty);
+
+        // Assert
+        var statusCodeResult = result as ObjectResult;
+        Assert.IsNotNull(statusCodeResult);
+        Assert.AreEqual(500, statusCodeResult.StatusCode);
+        this._userServiceMock.Verify(service => service.GetUserAsync(It.IsAny<string>()), Times.Once);
+    }
 }

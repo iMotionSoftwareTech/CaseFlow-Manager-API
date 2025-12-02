@@ -269,5 +269,45 @@ namespace IMotionSoftware.CaseFlowManager.Api.Test.TestConfiguration
                 }
             };
         }
+
+        /// <summary>
+        /// Gets the user detail dto.
+        /// </summary>
+        /// <returns>The <see cref="UserDetailDto"/></returns>
+        public static UserDetailDto GetUserDetailDto()
+        {
+            return new UserDetailDto
+            {
+                CaseworkerId = 10,
+                CaseworkerRoleId = 2,
+                Role = "Caseworker",
+                Username = "ASmith",
+                Forename = "Alice",
+                Surname = "Smith",
+                Email = "testuser@testsite.com",
+                IsLocked = false,
+                PasswordAttempt = 0
+            };
+        }
+
+        /// <summary>
+        /// Gets the user detail.
+        /// </summary>
+        /// <returns>The <see cref="UserDetail"</returns>
+        public static UserDetail GetUserDetail()
+        {
+            return new UserDetail
+            {
+                CaseworkerId = 11,
+                CaseworkerRoleId = 2,
+                Role = "Caseworker",
+                Username = "ASmith",
+                Forename = "Alan",
+                Surname = "Smith",
+                Email = "testuser@testsite.com",
+                IsLocked = false,
+                PasswordAttempt = 0
+            };
+        }
     }
 }

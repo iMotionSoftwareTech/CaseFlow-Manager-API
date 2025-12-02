@@ -56,5 +56,26 @@ namespace IMotionSoftware.CaseFlowManager.API.Controllers
 
             return Ok();
         }
+
+        /// <summary>
+        /// Gets the user.
+        /// </summary>
+        /// <param name="email">The email.</param>
+        /// <returns>The <see cref="Task{TResult}"/></returns>
+        [HttpGet]
+        [Route("GetUser/{email}")]
+        public async Task<ActionResult> GetUser(string email)
+        {
+            try
+            {
+                var result = await this._userService.GetUserAsync(email);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while retrieving user.");
+                return StatusCode(500, "Internal server error");
+            }
+        }
     }
 }

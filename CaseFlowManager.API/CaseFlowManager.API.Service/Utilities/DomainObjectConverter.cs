@@ -180,5 +180,22 @@ namespace CaseFlowManager.API.Service.Utilities
                 IsLocked = userDetail.IsLocked
             };
         }
+
+        /// <summary>
+        /// Converts to logstatusparameter.
+        /// </summary>
+        /// <param name="logStatusRequest">The log status request.</param>
+        /// <returns>The <see cref="LogTaskStatusParameter"/></returns>
+        public static LogTaskStatusParameter ToLogStatusParameter(this LogStatusRequest logStatusRequest)
+        {
+            return new LogTaskStatusParameter
+            {
+                TaskId = logStatusRequest.TaskId,
+                StatusId = logStatusRequest.StatusId,
+                CaseworkerId = logStatusRequest.CaseworkerId,
+                Notes = logStatusRequest.Notes, 
+                LogDateTime = logStatusRequest.LogDateTime
+            };
+        }
     }
 }

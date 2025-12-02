@@ -37,5 +37,12 @@ namespace CaseFlowManager.API.Service.Interfaces
         /// <param name="taskId">The task identifier.</param>
         /// <returns>The <see cref="Task{T}"/></returns>
         Task<IEnumerable<CaseTaskStatus>> GetTaskWithStatusesByIdAsync(int taskId);
+
+        /// <summary>
+        /// Logs the task status asynchronous.
+        /// </summary>
+        /// <param name="logStatusRequest">The log status request.</param>
+        /// <returns>The <see cref="Task{TResult}"/></returns>
+        Task<int> LogTaskStatusAsync(LogStatusRequest logStatusRequest);
     }
 }

@@ -326,5 +326,32 @@ namespace IMotionSoftware.CaseFlowManager.Api.Test.TestConfiguration
                 LogDateTime = DateTime.UtcNow
             };
         }
+
+        /// <summary>
+        /// Gets the task status requests.
+        /// </summary>
+        /// <returns>The <see cref="IEnumerable{T}"/></returns>
+        public static IEnumerable<LogStatusRequest> GetTaskStatusRequests()
+        {
+            return new List<LogStatusRequest>
+            {
+                new LogStatusRequest
+                {
+                    CaseworkerId = 2,
+                    TaskId = 1,
+                    StatusId = 3,
+                    Notes = "Updating status to Hearing Scheduled",
+                    LogDateTime = DateTime.UtcNow
+                },
+                new LogStatusRequest
+                {
+                    CaseworkerId = 1,
+                    TaskId = 2,
+                    StatusId = 4,
+                    Notes = "Hearing was held",
+                    LogDateTime = DateTime.UtcNow
+                }
+            };
+        }
     }
 }

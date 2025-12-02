@@ -142,5 +142,28 @@ namespace IMotionSoftware.CaseFlowManager.API.Controllers
             }
             return Ok();
         }
+
+        /// <summary>
+        /// Logs the bulk task statuses asynchronous.
+        /// </summary>
+        /// <param name="logTaskStatusRequests">The log task status requests.</param>
+        /// <returns>The <see cref="Task{TResult}"/></returns>
+        [HttpPost]
+        [Route("LogBulkTaskStatusesAsync")]
+        public async Task<ActionResult> LogBulkTaskStatusesAsync(IEnumerable<LogStatusRequest> logTaskStatusRequests)
+        {
+            try
+            {
+                var result = await this._taskService.LogTaskStatusesAsync(logTaskStatusRequests);
+                if (result != -1)
+                    return BadRequest("Logging bulk task statuses failed.");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while logging bulk task statuses.");
+                return StatusCode(500, "Internal server error");
+            }
+            return Ok();
+        }
     }
 }

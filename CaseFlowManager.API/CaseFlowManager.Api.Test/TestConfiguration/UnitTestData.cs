@@ -1,4 +1,5 @@
 ﻿using IMotionSoftware.CaseFlowDataPackage.DomainObjects;
+using IMotionSoftware.CaseFlowDataPackage.DomainObjects.ParameterObjects;
 using IMotionSoftware.CaseFlowManager.API.Models.Models;
 using IMotionSoftware.CaseFlowManager.API.Models.Request;
 
@@ -307,6 +308,22 @@ namespace IMotionSoftware.CaseFlowManager.Api.Test.TestConfiguration
                 Email = "testuser@testsite.com",
                 IsLocked = false,
                 PasswordAttempt = 0
+            };
+        }
+        
+        /// <summary>
+        /// Gets the log status request.
+        /// </summary>
+        /// <returns>The <see cref="LogStatusRequest"/></returns>
+        public static LogStatusRequest GetLogStatusRequest()
+        {
+            return new LogStatusRequest
+            {
+                CaseworkerId = 1,
+                TaskId = 2,
+                StatusId = 3,
+                Notes = "Updating status to Hearing Scheduled",
+                LogDateTime = DateTime.UtcNow
             };
         }
     }

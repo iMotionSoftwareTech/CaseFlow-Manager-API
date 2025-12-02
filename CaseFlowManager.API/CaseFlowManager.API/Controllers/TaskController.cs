@@ -119,5 +119,28 @@ namespace IMotionSoftware.CaseFlowManager.API.Controllers
                 return StatusCode(500, "Internal server error");
             }
         }
+
+        /// <summary>
+        /// Logs the case task status asynchronous.
+        /// </summary>
+        /// <param name="logStatusRequest">The log status request.</param>
+        /// <returns>The <see cref="Task{TResult}"/></returns>
+        [HttpPost]
+        [Route("LogCaseTaskStatusAsync")]
+        public async Task<ActionResult> LogCaseTaskStatusAsync(LogStatusRequest logStatusRequest)
+        {
+            try
+            {
+                var result = await this._taskService.LogTaskStatusAsync(logStatusRequest);
+                if (result != -1)
+                    return BadRequest("Logging task status failed.");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while logging task status.");
+                return StatusCode(500, "Internal server error");
+            }
+            return Ok();
+        }
     }
 }

@@ -13,7 +13,7 @@ namespace CaseFlowManager.API.Service.Interfaces
         /// </summary>
         /// <param name="createRoleRequest">The create role request.</param>
         /// <returns>The <see cref="Task{TResult}"/></returns>
-        Task<int> CreateRoleAsync(CreateRoleRequest createRoleRequest);
+        Task<NewRole> CreateRoleAsync(CreateRoleRequest createRoleRequest);
 
         /// <summary>
         /// Gets all roles asynchronous.

@@ -33,9 +33,10 @@ namespace CaseFlowManager.API.Service.Services
         /// <returns>
         /// The <see cref="Task{TResult}" />
         /// </returns>
-        public async Task<int> CreateRoleAsync(CreateRoleRequest createRoleRequest)
+        public async Task<NewRole> CreateRoleAsync(CreateRoleRequest createRoleRequest)
         {
-            return await _roleRepo.CreateRoleAsync(createRoleRequest.ToCreateRoleParameter());
+             var result = await _roleRepo.CreateRoleAsync(createRoleRequest.ToCreateRoleParameter());
+             return result.ToNewRole();
         }
 
         /// <summary>

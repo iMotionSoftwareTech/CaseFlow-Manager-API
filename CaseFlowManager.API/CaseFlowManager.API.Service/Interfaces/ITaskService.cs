@@ -13,8 +13,8 @@ namespace CaseFlowManager.API.Service.Interfaces
         /// Creates the task asynchronous.
         /// </summary>
         /// <param name="createTaskRequest">The create task request.</param>
-        /// <returns></returns>
-        Task<int> CreateTaskAsync(CreateTaskRequest createTaskRequest);
+        /// <returns>The <see cref="Task{TResult}"/></returns>
+        Task<NewTask> CreateTaskAsync(CreateTaskRequest createTaskRequest);
 
         /// <summary>
         /// Gets all statuses asynchronous.
@@ -44,13 +44,13 @@ namespace CaseFlowManager.API.Service.Interfaces
         /// </summary>
         /// <param name="logStatusRequest">The log status request.</param>
         /// <returns>The <see cref="Task{TResult}"/></returns>
-        Task<int> LogTaskStatusAsync(LogStatusRequest logStatusRequest);
+        Task<TaskUpdate> LogTaskStatusAsync(LogStatusRequest logStatusRequest);
 
         /// <summary>
         /// Logs the task statuses asynchronous.
         /// </summary>
         /// <param name="logTaskStatusParameters">The log task status parameters.</param>
         /// <returns>The <see cref="Task{TResult}"/></returns>
-        Task<int> LogTaskStatusesAsync(IEnumerable<LogStatusRequest> logTaskStatusParameters);
+        Task<BulkTaskUpdate> LogTaskStatusesAsync(IEnumerable<LogStatusRequest> logTaskStatusParameters);
     }
 }

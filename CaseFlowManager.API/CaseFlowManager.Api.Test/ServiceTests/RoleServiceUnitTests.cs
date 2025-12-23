@@ -2,6 +2,7 @@ using CaseFlowManager.API.Service.Services;
 using IMotionSoftware.CaseFlowDataPackage.DomainObjects.ParameterObjects;
 using IMotionSoftware.CaseFlowDataPackage.Interfaces;
 using IMotionSoftware.CaseFlowManager.Api.Test.TestConfiguration;
+using IMotionSoftware.CaseFlowManager.API.Models.Models;
 using Moq;
 
 namespace IMotionSoftware.CaseFlowManager.Api.Test;
@@ -40,14 +41,16 @@ public class RoleServiceUnitTests
     {
         // Arrange
         var parameter = UnitTestData.GetCreateRoleRequest();
+        var response = UnitTestData.GetNewRoleResult();
+        var apiResponse = UnitTestData.GetNewRoleResponse();
         this._roleRepoMock
-            .Setup(repo => repo.CreateRoleAsync(It.IsAny<CreateRoleParameter>())).ReturnsAsync(1);
+            .Setup(repo => repo.CreateRoleAsync(It.IsAny<CreateRoleParameter>())).ReturnsAsync(response);
 
         // Act
         var result = await this._roleService.CreateRoleAsync(parameter);
 
         // Assert
-        Assert.AreEqual(1, result);
+        Assert.AreEqual(apiResponse.IsSuccess, result.IsSuccess);
         this._roleRepoMock.Verify(repo => repo.CreateRoleAsync(It.IsAny<CreateRoleParameter>()), Times.Once);
     }
 

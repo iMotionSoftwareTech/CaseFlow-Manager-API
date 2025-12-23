@@ -1,4 +1,6 @@
 ﻿using CaseFlowManager.API.Service.Interfaces;
+using IMotionSoftware.CaseFlowDataPackage.DomainObjects.ParameterObjects;
+using IMotionSoftware.CaseFlowManager.API.Models.Models;
 using IMotionSoftware.CaseFlowManager.API.Models.Request;
 using Microsoft.AspNetCore.Mvc;
 
@@ -40,21 +42,21 @@ namespace IMotionSoftware.CaseFlowManager.API.Controllers
         /// <returns>The <see cref="Task{TResult}"/></returns>
         [HttpPost]
         [Route("CreateNewUserAsync")]
-        public async Task<ActionResult> CreateNewUserAsync(CreateUserRequest createUserRequest)
+        public async Task<ActionResult<NewUser>> CreateNewUserAsync([FromBody] CreateUserRequest createUserRequest)
         {
             try
             {
                 var result = await this._userService.CreateUserAsync(createUserRequest);
-                if (result != -1)
+                if (!result.IsSuccess)
                     return BadRequest("User creation failed.");
+
+                return Ok(result);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while creating user.");
-                return StatusCode(500, "Internal server error");
+                return StatusCode(StatusCodes.Status500InternalServerError, "Internal server error");
             }
-
-            return Ok();
         }
 
         /// <summary>
@@ -64,7 +66,7 @@ namespace IMotionSoftware.CaseFlowManager.API.Controllers
         /// <returns>The <see cref="Task{TResult}"/></returns>
         [HttpGet]
         [Route("GetUser/{email}")]
-        public async Task<ActionResult> GetUser(string email)
+        public async Task<ActionResult<UserDetail>> GetUser(string email)
         {
             try
             {
@@ -74,7 +76,7 @@ namespace IMotionSoftware.CaseFlowManager.API.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while retrieving user.");
-                return StatusCode(500, "Internal server error");
+                return StatusCode(StatusCodes.Status500InternalServerError, "Internal server error");
             }
         }
 
@@ -84,21 +86,22 @@ namespace IMotionSoftware.CaseFlowManager.API.Controllers
         /// <param name="caseworkerId">The caseworker identifier.</param>
         /// <returns>The <see cref="Task{TResult}"/></returns>
         [HttpPut]
-        [Route("UpdatePasswordAttempt/{caseworkerId}")]
-        public async Task<ActionResult> UpdatePasswordAttempt(int caseworkerId)
+        [Route("UpdatePasswordAttempt")]
+        public async Task<ActionResult<PasswordAttempt>> UpdatePasswordAttempt([FromBody] PasswordAttemptRequest passwordAttemptRequest)
         {
             try
             {
-                var result = await this._userService.UpdatePasswordAttemptAsync(caseworkerId);
-                if (result != -1)
+                var result = await this._userService.UpdatePasswordAttemptAsync(passwordAttemptRequest);
+                if (!result.IsSuccess)
                     return BadRequest("Updating password attempt failed.");
+
+                return Ok(result);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while updating password attempt.");
-                return StatusCode(500, "Internal server error");
+                return StatusCode(StatusCodes.Status500InternalServerError, "Internal server error");
             }
-            return Ok();
         }
     }
 }

@@ -30,10 +30,13 @@ namespace CaseFlowManager.API.Service.Services
         /// Creates the task asynchronous.
         /// </summary>
         /// <param name="createTaskRequest">The create task request.</param>
-        /// <returns></returns>
-        public async Task<int> CreateTaskAsync(CreateTaskRequest createTaskRequest)
+        /// <returns>
+        /// The <see cref="Task{TResult}" />
+        /// </returns>
+        public async Task<NewTask> CreateTaskAsync(CreateTaskRequest createTaskRequest)
         {
-            return await this._taskRepo.CreateTaskAsync(createTaskRequest.ToCreateTaskParameter());
+            var result = await this._taskRepo.CreateTaskAsync(createTaskRequest.ToCreateTaskParameter());
+            return result.ToNewTask();
         }
 
         /// <summary>
@@ -82,9 +85,10 @@ namespace CaseFlowManager.API.Service.Services
         /// <returns>
         /// The <see cref="Task{TResult}" />
         /// </returns>
-        public async Task<int> LogTaskStatusAsync(LogStatusRequest logStatusRequest)
+        public async Task<TaskUpdate> LogTaskStatusAsync(LogStatusRequest logStatusRequest)
         {
-            return await this._taskRepo.LogTaskStatusAsync(logStatusRequest.ToLogStatusParameter());
+            var result = await this._taskRepo.LogTaskStatusAsync(logStatusRequest.ToLogStatusParameter());
+            return result.ToTaskUpdate();
         }
 
         /// <summary>
@@ -94,9 +98,10 @@ namespace CaseFlowManager.API.Service.Services
         /// <returns>
         /// The <see cref="Task{TResult}" />
         /// </returns>
-        public async Task<int> LogTaskStatusesAsync(IEnumerable<LogStatusRequest> logTaskStatusParameters)
+        public async Task<BulkTaskUpdate> LogTaskStatusesAsync(IEnumerable<LogStatusRequest> logTaskStatusParameters)
         {
-            return await this._taskRepo.LogTaskStatusesAsync(logTaskStatusParameters.ToLogStatusParameterList());
+            var result = await this._taskRepo.LogTaskStatusesAsync(logTaskStatusParameters.ToLogStatusParameterList());
+            return result.ToBulkTaskUpdate();
         }
     }
 }

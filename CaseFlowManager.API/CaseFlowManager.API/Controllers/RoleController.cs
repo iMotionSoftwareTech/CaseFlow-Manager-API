@@ -1,4 +1,5 @@
 using CaseFlowManager.API.Service.Interfaces;
+using IMotionSoftware.CaseFlowManager.API.Models.Models;
 using IMotionSoftware.CaseFlowManager.API.Models.Request;
 using Microsoft.AspNetCore.Mvc;
 
@@ -40,21 +41,21 @@ namespace CaseFlowManager.API.Controllers
         /// <returns>The <see cref="Task{T}"/></returns>
         [HttpPost]
         [Route("CreateCaseworkerRoleAsync")]
-        public async Task<ActionResult> CreateCaseworkerRoleAsync(CreateRoleRequest createRoleRequest)
+        public async Task<ActionResult<NewRole>> CreateCaseworkerRoleAsync([FromBody] CreateRoleRequest createRoleRequest)
         {
             try
             {
                 var result = await this._roleService.CreateRoleAsync(createRoleRequest);
-                if (result != -1)
+                if (!result.IsSuccess)
                     return BadRequest("Role creation failed.");
+
+                return Ok(result);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while creating role.");
-                return StatusCode(500, "Internal server error");
+                return StatusCode(StatusCodes.Status500InternalServerError, "Internal server error");
             }
-            
-            return Ok();
         }
 
         /// <summary>
@@ -63,7 +64,7 @@ namespace CaseFlowManager.API.Controllers
         /// <returns>The <see cref="Task{T}"/></returns>
         [HttpGet]
         [Route("GetAllCaseworkerRolesAsync")]
-        public async Task<ActionResult> GetAllCaseworkerRolesAsync()
+        public async Task<ActionResult<IEnumerable<CaseworkerRole>>> GetAllCaseworkerRolesAsync()
         {
             try
             {
@@ -73,7 +74,7 @@ namespace CaseFlowManager.API.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while retrieving roles.");
-                return StatusCode(500, "Internal server error");
+                return StatusCode(StatusCodes.Status500InternalServerError, "Internal server error");
             }
         }
     }

@@ -41,15 +41,17 @@ namespace IMotionSoftware.CaseFlowManager.Api.Test
         {
             // Arrange
             var request = UnitTestData.GetCreateTaskRequest();
+            var response = UnitTestData.GetNewTaskResult();
+            var apiResponse = UnitTestData.GetNewTaskResponse();
             this._taskRepoMock
                 .Setup(repo => repo.CreateTaskAsync(It.IsAny<CreateTaskParameter>()))
-                .ReturnsAsync(1);
+                .ReturnsAsync(response);
 
             // Act
             var result = await this._taskService.CreateTaskAsync(request);
 
             // Assert
-            Assert.AreEqual(1, result);
+            Assert.AreEqual(apiResponse.IsSuccess, result.IsSuccess);
             this._taskRepoMock.Verify(repo => repo.CreateTaskAsync(It.IsAny<CreateTaskParameter>()), Times.Once);
         }
 
@@ -60,7 +62,7 @@ namespace IMotionSoftware.CaseFlowManager.Api.Test
         public async Task GetAllStatusesAsync_IsSuccessfull_Test()
         {
             // Arrange
-            var roles = UnitTestData.GetAllStatusDto();
+            var roles = UnitTestData.GetAllStatusResult();
             this._taskRepoMock
                 .Setup(repo => repo.GetAllStatusesAsync()).ReturnsAsync(roles);
 
@@ -102,7 +104,7 @@ namespace IMotionSoftware.CaseFlowManager.Api.Test
         public async Task GetTaskWithStatusesByIdAsync_IsSuccessfull_Test()
         {
             // Arrange
-            var response = UnitTestData.GetTaskStatusDtos();
+            var response = UnitTestData.GetTaskStatusResult();
             this._taskRepoMock
                 .Setup(repo => repo.GetTaskWithStatusesByIdAsync(It.IsAny<int>())).ReturnsAsync(response);
 
@@ -122,15 +124,17 @@ namespace IMotionSoftware.CaseFlowManager.Api.Test
         {
             // Arrange
             var request = UnitTestData.GetLogStatusRequest();
+            var response = UnitTestData.GetTaskUpdateResult();
+            var apiResponse = UnitTestData.GetTaskUpdateResponse();
             this._taskRepoMock
                 .Setup(repo => repo.LogTaskStatusAsync(It.IsAny<LogTaskStatusParameter>()))
-                .ReturnsAsync(1);
+                .ReturnsAsync(response);
 
             // Act
             var result = await this._taskService.LogTaskStatusAsync(request);
 
             // Assert
-            Assert.AreEqual(1, result);
+            Assert.AreEqual(apiResponse.IsSuccess, result.IsSuccess);
             this._taskRepoMock.Verify(repo => repo.LogTaskStatusAsync(It.IsAny<LogTaskStatusParameter>()), Times.Once);
         }
 
@@ -142,15 +146,17 @@ namespace IMotionSoftware.CaseFlowManager.Api.Test
         {
             // Arrange
             var request = UnitTestData.GetTaskStatusRequests();
+            var response = UnitTestData.GetBulkTaskUpdateResult();
+            var apiResponse = UnitTestData.GetBulkTaskUpdateResponse();
             this._taskRepoMock
                 .Setup(repo => repo.LogTaskStatusesAsync(It.IsAny<IEnumerable<LogTaskStatusParameter>>()))
-                .ReturnsAsync(1);
+                .ReturnsAsync(response);
 
             // Act
             var result = await this._taskService.LogTaskStatusesAsync(request);
 
             // Assert
-            Assert.AreEqual(1, result);
+            Assert.AreEqual(apiResponse.IsSuccess, result.IsSuccess);
             this._taskRepoMock.Verify(repo => repo.LogTaskStatusesAsync(It.IsAny<IEnumerable<LogTaskStatusParameter>>()), Times.Once);
         }
     }

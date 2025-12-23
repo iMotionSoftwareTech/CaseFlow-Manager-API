@@ -2,6 +2,7 @@ using CaseFlowManager.API.Service.Services;
 using IMotionSoftware.CaseFlowDataPackage.DomainObjects.ParameterObjects;
 using IMotionSoftware.CaseFlowDataPackage.Interfaces;
 using IMotionSoftware.CaseFlowManager.Api.Test.TestConfiguration;
+using IMotionSoftware.CaseFlowManager.API.Models.Request;
 using Moq;
 
 namespace IMotionSoftware.CaseFlowManager.Api.Test;
@@ -40,14 +41,16 @@ public class UserServiceUnitTests
     {
         // Arrange
         var request = UnitTestData.GetCreateUserRequest();
+        var response = UnitTestData.GetNewUserResult();
+        var apiResponse = UnitTestData.GetNewUserResponse();
         this._userRepoMock
-            .Setup(repo => repo.CreateUserAsync(It.IsAny<CreateUserParameter>())).ReturnsAsync(1);
+            .Setup(repo => repo.CreateUserAsync(It.IsAny<CreateUserParameter>())).ReturnsAsync(response);
 
         // Act
         var result = await this._userService.CreateUserAsync(request);
 
         // Assert
-        Assert.AreEqual(1, result);
+        Assert.AreEqual(apiResponse.IsSuccess, result.IsSuccess);
         this._userRepoMock.Verify(repo => repo.CreateUserAsync(It.IsAny<CreateUserParameter>()), Times.Once);
     }
 
@@ -58,7 +61,7 @@ public class UserServiceUnitTests
     public async Task GetUserAsync_IsSuccessfull_Test()
     {
         // Arrange
-        var response = UnitTestData.GetUserDetailDto();
+        var response = UnitTestData.GetUserDetailResult();
         this._userRepoMock
             .Setup(repo => repo.GetUserAsync(It.IsAny<string>())).ReturnsAsync(response);
 
@@ -77,14 +80,17 @@ public class UserServiceUnitTests
     public async Task UpdatePasswordAttemptAsync_IsSuccessfull_Test()
     {
         // Arrange
+        var request = UnitTestData.GetPasswordAttemptRequest();
+        var response = UnitTestData.GetPasswordAttemptResult();
+        var apiResponse = UnitTestData.GetPasswordAttemptResponse();
         this._userRepoMock
-            .Setup(repo => repo.UpdatePasswordAttemptAsync(It.IsAny<int>())).ReturnsAsync(-1);
+            .Setup(repo => repo.UpdatePasswordAttemptAsync(It.IsAny<PasswordAttemptParameter>())).ReturnsAsync(response);
 
         // Act
-        var result = await this._userService.UpdatePasswordAttemptAsync(1);
+        var result = await this._userService.UpdatePasswordAttemptAsync(request);
 
         // Assert
-        Assert.AreEqual(-1, result);
-        this._userRepoMock.Verify(repo => repo.UpdatePasswordAttemptAsync(It.IsAny<int>()), Times.Once);
+        Assert.AreEqual(apiResponse.IsSuccess, result.IsSuccess);
+        this._userRepoMock.Verify(repo => repo.UpdatePasswordAttemptAsync(It.IsAny<PasswordAttemptParameter>()), Times.Once);
     }
 }

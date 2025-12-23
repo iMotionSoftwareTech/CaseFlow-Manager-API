@@ -64,7 +64,7 @@ namespace CaseFlowManager.API.Service.Utilities
         /// </summary>
         /// <param name="caseworkerRoles">The caseworker role.</param>
         /// <returns>The <see cref="IEnumerable{T}"/></returns>
-        public static IEnumerable<CaseworkerRole> ToCaseworkerRoles(this IEnumerable<CaseworkerRoleDto> caseworkerRoles)
+        public static IEnumerable<CaseworkerRole> ToCaseworkerRoles(this IEnumerable<CaseworkerRoleResult> caseworkerRoles)
         {
             var roles = new List<CaseworkerRole>();
             foreach (var role in caseworkerRoles)
@@ -85,7 +85,7 @@ namespace CaseFlowManager.API.Service.Utilities
         /// </summary>
         /// <param name="statuses">The statuses.</param>
         /// <returns>The <see cref="Task{TResult}"/></returns>
-        public static IEnumerable<Status> ToStatuses(this IEnumerable<StatusDto> statuses)
+        public static IEnumerable<Status> ToStatuses(this IEnumerable<StatusResult> statuses)
         {
             var statusList = new List<Status>();
             foreach (var status in statuses)
@@ -105,7 +105,7 @@ namespace CaseFlowManager.API.Service.Utilities
         /// <param name="totalRecords">The total records.</param>
         /// <param name="tasks">The tasks.</param>
         /// <returns>The <see cref="TaskRecord"/></returns>
-        public static TaskRecord ToTaskRecord(this int totalRecords, IEnumerable<TaskDto> tasks)
+        public static TaskRecord ToTaskRecord(this int totalRecords, IEnumerable<TaskResult> tasks)
         {
             return new TaskRecord
             {
@@ -119,7 +119,7 @@ namespace CaseFlowManager.API.Service.Utilities
         /// </summary>
         /// <param name="tasks">The tasks.</param>
         /// <returns>The <see cref="IEnumerable{T}"/></returns>
-        public static IEnumerable<CaseTask> ToCaseTasks(this IEnumerable<TaskDto> tasks) 
+        public static IEnumerable<CaseTask> ToCaseTasks(this IEnumerable<TaskResult> tasks) 
         { 
             var taskList = new List<CaseTask>();
             foreach (var task in tasks)
@@ -141,7 +141,7 @@ namespace CaseFlowManager.API.Service.Utilities
         /// </summary>
         /// <param name="taskStatuses">The task statuses.</param>
         /// <returns>The <see cref="IEnumerable{T}"/></returns>
-        public static IEnumerable<CaseTaskStatus> ToCaseTaskStatuses(this IEnumerable<TaskStatusDto> taskStatuses)
+        public static IEnumerable<CaseTaskStatus> ToCaseTaskStatuses(this IEnumerable<TaskStatusResult> taskStatuses)
         {
             var caseTaskStatusList = new List<CaseTaskStatus>();
             foreach (var caseTaskStatus in taskStatuses)
@@ -165,7 +165,7 @@ namespace CaseFlowManager.API.Service.Utilities
         /// </summary>
         /// <param name="userDetail">The user detail.</param>
         /// <returns>The <see cref="UserDetail"/></returns>
-        public static UserDetail ToUserDetail(this UserDetailDto userDetail) 
+        public static UserDetail ToUserDetail(this UserDetailResult userDetail) 
         {
             return new UserDetail
             {
@@ -219,6 +219,112 @@ namespace CaseFlowManager.API.Service.Utilities
             }
             
             return caseTaskStatusList;
+        }
+
+        /// <summary>
+        /// Converts to passwordattemptparameter.
+        /// </summary>
+        /// <param name="passwordAttemptRequest">The password attempt request.</param>
+        /// <returns>The <see cref="PasswordAttemptParameter"/></returns>
+        public static PasswordAttemptParameter ToPasswordAttemptParameter(this PasswordAttemptRequest passwordAttemptRequest)
+        {
+            return new PasswordAttemptParameter
+            {
+                CaseworkerId = passwordAttemptRequest.CaseworkerId,
+                MaxAttempts = passwordAttemptRequest.MaxAttempts
+            };
+        }
+
+        /// <summary>
+        /// Converts to newrole.
+        /// </summary>
+        /// <param name="newRole">The new role.</param>
+        /// <returns><The <see cref="NewRole"/></returns>
+        public static NewRole ToNewRole(this NewRoleResult newRole)
+        {
+            return new NewRole
+            {
+                RoleId = newRole.RoleId,
+                IsSuccess = newRole.Success,
+                ErrorMessage = newRole.ErrorMessage
+            };
+        }
+
+        /// <summary>
+        /// Converts to newuser.
+        /// </summary>
+        /// <param name="newUser">The new user.</param>
+        /// <returns><The <see cref="NewUser"/></returns>
+        public static NewUser ToNewUser (this NewUserResult newUser)
+        {
+            return new NewUser
+            {
+                CaseworkerId = newUser.CaseworkerId,
+                IsSuccess = newUser.Success,
+                ErrorMessage = newUser.ErrorMessage
+            };
+        }
+
+        /// <summary>
+        /// Converts to passwordattempt.
+        /// </summary>
+        /// <param name="passwordAttempt">The password attempt.</param>
+        /// <returns>The <see cref="PasswordAttempt"/></returns>
+        public static PasswordAttempt ToPasswordAttempt(this PasswordAttemptResult passwordAttempt)
+        {
+            return new PasswordAttempt
+            {
+                NewAttemptCount = passwordAttempt.NewAttemptCount,
+                WasLocked = passwordAttempt.WasLocked,
+                IsSuccess = passwordAttempt.Success,
+                ErrorMessage = passwordAttempt.ErrorMessage
+
+            };
+        }
+
+        /// <summary>
+        /// Converts to newtask.
+        /// </summary>
+        /// <param name="newTask">The new task.</param>
+        /// <returns>The <see cref="NewTask"/></returns>
+        public static NewTask ToNewTask(this NewTaskResult newTask)
+        {
+            return new NewTask
+            {
+                TaskId = newTask.TaskId,
+                IsSuccess = newTask.Success,
+                ErrorMessage = newTask.ErrorMessage
+            };
+        }
+
+        /// <summary>
+        /// Converts to taskupdate.
+        /// </summary>
+        /// <param name="taskUpdate">The task update.</param>
+        /// <returns>The <see cref="TaskUpdate"/></returns>
+        public static TaskUpdate ToTaskUpdate(this TaskUpdateResult taskUpdate)
+        {
+            return new TaskUpdate
+            {
+                TaskStatusId = taskUpdate.TaskStatusId,
+                IsSuccess = taskUpdate.Success,
+                ErrorMessage = taskUpdate.ErrorMessage
+            };
+        }
+
+        /// <summary>
+        /// Converts to bulktaskupdate.
+        /// </summary>
+        /// <param name="bulkTaskUpdate">The bulk task update.</param>
+        /// <returns>The <see cref="BulkTaskUpdate"/></returns>
+        public static BulkTaskUpdate ToBulkTaskUpdate(this BulkTaskUpdateResult bulkTaskUpdate)
+        {
+            return new BulkTaskUpdate
+            {
+                InsertedCount = bulkTaskUpdate.InsertedCount,
+                IsSuccess = bulkTaskUpdate.Success,
+                ErrorMessage = bulkTaskUpdate.ErrorMessage
+            };
         }
     }
 }

@@ -57,17 +57,17 @@ namespace IMotionSoftware.CaseFlowManager.Api.Test.TestConfiguration
         /// Gets all roles.
         /// </summary>
         /// <returns>The <see cref="IEnumerable{T}"/></returns>
-        public static IEnumerable<CaseworkerRoleDto> GetAllRoles()
+        public static IEnumerable<CaseworkerRoleResult> GetAllRoles()
         {
-            return new List<CaseworkerRoleDto>
+            return new List<CaseworkerRoleResult>
             {
-                new CaseworkerRoleDto
+                new CaseworkerRoleResult
                 {
                     Id = 1,
                     Name = "Role 1",
                     Description = "Description for Role 1"
                 },
-                new CaseworkerRoleDto
+                new CaseworkerRoleResult
                 {
                     Id = 2,
                     Name = "Role 2",
@@ -126,24 +126,24 @@ namespace IMotionSoftware.CaseFlowManager.Api.Test.TestConfiguration
         }
 
         /// <summary>
-        /// Gets all status dto.
+        /// Gets all status Result.
         /// </summary>
         /// <returns>The <see cref="IEnumerable{T}"/></returns>
-        public static IEnumerable<StatusDto> GetAllStatusDto()
+        public static IEnumerable<StatusResult> GetAllStatusResult()
         {
-            return new List<StatusDto>
+            return new List<StatusResult>
             {
-                new StatusDto
+                new StatusResult
                 {
                     Id = 4,
                     Title = "Awaiting Hearing"
                 },
-                new StatusDto
+                new StatusResult
                 {
                     Id = 5,
                     Title = "Scheduled Hearing"
                 },
-                new StatusDto
+                new StatusResult
                 {
                     Id = 6,
                     Title = "Transferred"
@@ -186,11 +186,11 @@ namespace IMotionSoftware.CaseFlowManager.Api.Test.TestConfiguration
         /// Gets all tasks.
         /// </summary>
         /// <returns>The <see cref="IEnumerable{T}"/></returns>
-        public static IEnumerable<TaskDto> GetAllTasks()
+        public static IEnumerable<TaskResult> GetAllTasks()
         {
-            return new List<TaskDto>
+            return new List<TaskResult>
             {
-                new TaskDto
+                new TaskResult
                 {
                     TaskId = 3,
                     Title = "Task 3",
@@ -198,7 +198,7 @@ namespace IMotionSoftware.CaseFlowManager.Api.Test.TestConfiguration
                     DueDateTime = DateTime.UtcNow.AddDays(4),
                     Status = "Open"
                 },
-                new TaskDto
+                new TaskResult
                 {
                     TaskId = 4,
                     Title = "Task 4",
@@ -210,14 +210,14 @@ namespace IMotionSoftware.CaseFlowManager.Api.Test.TestConfiguration
         }
 
         /// <summary>
-        /// Gets the task status dtos.
+        /// Gets the task status Results.
         /// </summary>
         /// <returns>The <see cref="IEnumerable{T}"/></returns>
-        public static IEnumerable<TaskStatusDto> GetTaskStatusDtos()
+        public static IEnumerable<TaskStatusResult> GetTaskStatusResult()
         {
-            return new List<TaskStatusDto>
+            return new List<TaskStatusResult>
             {
-                new TaskStatusDto
+                new TaskStatusResult
                 {
                     Id = 1,
                     CaseWorker = "John Doe",
@@ -227,7 +227,7 @@ namespace IMotionSoftware.CaseFlowManager.Api.Test.TestConfiguration
                     Notes = "Open case created",
                     LogDateTime = DateTime.UtcNow.AddDays(-2)
                 },
-                new TaskStatusDto
+                new TaskStatusResult
                 {
                     Id = 2,
                     CaseWorker = "Jane Doe",
@@ -272,12 +272,12 @@ namespace IMotionSoftware.CaseFlowManager.Api.Test.TestConfiguration
         }
 
         /// <summary>
-        /// Gets the user detail dto.
+        /// Gets the user detail Result.
         /// </summary>
-        /// <returns>The <see cref="UserDetailDto"/></returns>
-        public static UserDetailDto GetUserDetailDto()
+        /// <returns>The <see cref="UserDetailResult"/></returns>
+        public static UserDetailResult GetUserDetailResult()
         {
-            return new UserDetailDto
+            return new UserDetailResult
             {
                 CaseworkerId = 10,
                 CaseworkerRoleId = 2,
@@ -310,7 +310,7 @@ namespace IMotionSoftware.CaseFlowManager.Api.Test.TestConfiguration
                 PasswordAttempt = 0
             };
         }
-        
+
         /// <summary>
         /// Gets the log status request.
         /// </summary>
@@ -351,6 +351,190 @@ namespace IMotionSoftware.CaseFlowManager.Api.Test.TestConfiguration
                     Notes = "Hearing was held",
                     LogDateTime = DateTime.UtcNow
                 }
+            };
+        }
+
+        /// <summary>
+        /// Gets the password attempt request.
+        /// </summary>
+        /// <returns>The <see cref="PasswordAttemptRequest"/></returns>
+        public static PasswordAttemptRequest GetPasswordAttemptRequest()
+        {
+            return new PasswordAttemptRequest
+            {
+                CaseworkerId = 5,
+                MaxAttempts = 3
+            };
+        }
+
+        /// <summary>
+        /// Gets the new user result.
+        /// </summary>
+        /// <returns>The <see cref="NewUserResult"/></returns>
+        public static NewUserResult GetNewUserResult()
+        {
+            return new NewUserResult
+            {
+                CaseworkerId = 5,
+                Success = true,
+                ErrorMessage = "User created successfully"
+            };
+        }
+
+        /// <summary>
+        /// Gets the password attempt result.
+        /// </summary>
+        /// <returns>The <see cref="PasswordAttempt"/></returns>
+        public static PasswordAttemptResult GetPasswordAttemptResult()
+        {
+            return new PasswordAttemptResult
+            {
+                NewAttemptCount = 2,
+                WasLocked = false,
+                Success = true,
+                ErrorMessage = string.Empty
+            };
+        }
+
+        /// <summary>
+        /// Gets the new task result.
+        /// </summary>
+        /// <returns>The <see cref="NewTaskResult"/></returns>
+        public static NewTaskResult GetNewTaskResult()
+        {
+            return new NewTaskResult
+            {
+                TaskId = 7,
+                Success = true,
+                ErrorMessage = string.Empty
+            };
+        }
+
+        /// <summary>
+        /// Gets the task update result.
+        /// </summary>
+        /// <returns>The <see cref="TaskUpdateResult"/></returns>
+        public static TaskUpdateResult GetTaskUpdateResult()
+        {
+            return new TaskUpdateResult
+            {
+                TaskStatusId = 3,
+                Success = true,
+                ErrorMessage = string.Empty
+            };
+        }
+
+        /// <summary>
+        /// Gets the bulk task update result.
+        /// </summary>
+        /// <returns>The <see cref="BulkTaskUpdateResult"/></returns>
+        public static BulkTaskUpdateResult GetBulkTaskUpdateResult()
+        {
+            return new BulkTaskUpdateResult
+            {
+                InsertedCount = 5,
+                Success = true,
+                ErrorMessage = string.Empty
+            };
+        }
+
+        /// <summary>
+        /// Gets the new role result.
+        /// </summary>
+        /// <returns>The <see cref="NewRoleResult"/></returns>
+        public static NewRoleResult GetNewRoleResult()
+        {
+            return new NewRoleResult
+            {
+                RoleId = 4,
+                Success = true,
+                ErrorMessage = string.Empty
+            };
+        }
+
+
+        /// <summary>
+        /// Gets the new user response.
+        /// </summary>
+        /// <returns>The <see cref="NewUser"/></returns>
+        public static NewUser GetNewUserResponse()
+        {
+            return new NewUser
+            {
+                CaseworkerId = 5,
+                IsSuccess = true,
+                ErrorMessage = "User created successfully"
+            };
+        }
+
+        /// <summary>
+        /// Gets the password attempt response.
+        /// </summary>
+        /// <returns>The <see cref="PasswordAttempt"/></returns>
+        public static PasswordAttempt GetPasswordAttemptResponse()
+        {
+            return new PasswordAttempt
+            {
+                NewAttemptCount = 2,
+                WasLocked = false,
+                IsSuccess = true,
+                ErrorMessage = string.Empty
+            };
+        }
+
+        /// <summary>
+        /// Gets the new task response.
+        /// </summary>
+        /// <returns>The <see cref="NewTask"/></returns>
+        public static NewTask GetNewTaskResponse()
+        {
+            return new NewTask
+            {
+                TaskId = 7,
+                IsSuccess = true,
+                ErrorMessage = string.Empty
+            };
+        }
+
+        /// <summary>
+        /// Gets the task update response.
+        /// </summary>
+        /// <returns>The <see cref="TaskUpdate"/></returns>
+        public static TaskUpdate GetTaskUpdateResponse()
+        {
+            return new TaskUpdate
+            {
+                TaskStatusId = 3,
+                IsSuccess = true,
+                ErrorMessage = string.Empty
+            };
+        }
+
+        /// <summary>
+        /// Gets the bulk task update response.
+        /// </summary>
+        /// <returns>The <see cref="BulkTaskUpdate"/></returns>
+        public static BulkTaskUpdate GetBulkTaskUpdateResponse()
+        {
+            return new BulkTaskUpdate
+            {
+                InsertedCount = 5,
+                IsSuccess = true,
+                ErrorMessage = string.Empty
+            };
+        }
+
+        /// <summary>
+        /// Gets the new role response.
+        /// </summary>
+        /// <returns>The <see cref="NewRole"/></returns>
+        public static NewRole GetNewRoleResponse()
+        {
+            return new NewRole
+            {
+                RoleId = 4,
+                IsSuccess = true,
+                ErrorMessage = string.Empty
             };
         }
     }

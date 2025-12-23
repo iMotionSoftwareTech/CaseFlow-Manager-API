@@ -13,7 +13,7 @@ namespace CaseFlowManager.API.Service.Interfaces
         /// </summary>
         /// <param name="createUserRequest">The create user request.</param>
         /// <returns>The <see cref="Task{TResult}"/></returns>
-        Task<int> CreateUserAsync(CreateUserRequest createUserRequest);
+        Task<NewUser> CreateUserAsync(CreateUserRequest createUserRequest);
 
         /// <summary>
         /// Gets the user asynchronous.
@@ -25,8 +25,10 @@ namespace CaseFlowManager.API.Service.Interfaces
         /// <summary>
         /// Updates the password attempt asynchronous.
         /// </summary>
-        /// <param name="caseworkerId">The caseworker identifier.</param>
-        /// <returns>The <see cref="Task{TResult}"/></returns>
-        Task<int> UpdatePasswordAttemptAsync(int caseworkerId);
+        /// <param name="passwordAttemptRequest">The password attempt request.</param>
+        /// <returns>
+        /// The <see cref="Task{TResult}" />
+        /// </returns>
+        Task<PasswordAttempt> UpdatePasswordAttemptAsync(PasswordAttemptRequest passwordAttemptRequest);
     }
 }

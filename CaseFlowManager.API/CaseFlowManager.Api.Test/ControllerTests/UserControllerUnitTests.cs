@@ -1,6 +1,7 @@
 using CaseFlowManager.API.Service.Interfaces;
 using IMotionSoftware.CaseFlowManager.Api.Test.TestConfiguration;
 using IMotionSoftware.CaseFlowManager.API.Controllers;
+using IMotionSoftware.CaseFlowManager.API.Models.Models;
 using IMotionSoftware.CaseFlowManager.API.Models.Request;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -48,14 +49,15 @@ public class UserControllerUnitTests
     {
         // Arrange
         var request = UnitTestData.GetCreateUserRequest();
+        var apiResponse = UnitTestData.GetNewUserResponse();
         this._userServiceMock
-            .Setup(s => s.CreateUserAsync(It.IsAny<CreateUserRequest>())).ReturnsAsync(-1);
+            .Setup(s => s.CreateUserAsync(It.IsAny<CreateUserRequest>())).ReturnsAsync(apiResponse);
 
         // Act
         var result = await _userController.CreateNewUserAsync(request);
 
         // Assert
-        Assert.IsTrue(result is OkResult);
+        Assert.IsTrue(result.Result is ObjectResult);
         this._userServiceMock.Verify(service => service.CreateUserAsync(It.IsAny<CreateUserRequest>()), Times.Once);
     }
 
@@ -69,13 +71,13 @@ public class UserControllerUnitTests
         var request = UnitTestData.GetCreateUserRequest();
         this._userServiceMock
             .Setup(service => service.CreateUserAsync(It.IsAny<CreateUserRequest>()))
-            .ReturnsAsync(0);
+            .ReturnsAsync(new NewUser());
 
         // Act
         var result = await this._userController.CreateNewUserAsync(request);
 
         // Assert
-        Assert.IsTrue(result is BadRequestObjectResult);
+        Assert.IsTrue(result.Result is BadRequestObjectResult);
         this._userServiceMock.Verify(service => service.CreateUserAsync(It.IsAny<CreateUserRequest>()), Times.Once);
     }
 
@@ -94,7 +96,7 @@ public class UserControllerUnitTests
         var result = await this._userController.CreateNewUserAsync(request);
 
         // Assert
-        var statusCodeResult = result as ObjectResult;
+        var statusCodeResult = result.Result as ObjectResult;
         Assert.IsNotNull(statusCodeResult);
         Assert.AreEqual(500, statusCodeResult.StatusCode);
         this._userServiceMock.Verify(service => service.CreateUserAsync(It.IsAny<CreateUserRequest>()), Times.Once);
@@ -115,7 +117,7 @@ public class UserControllerUnitTests
         var result = await this._userController.GetUser("testsite@testsite.com");
 
         // Assert
-        Assert.IsTrue(result is OkObjectResult);
+        Assert.IsTrue(result.Result is OkObjectResult);
         this._userServiceMock.Verify(service => service.GetUserAsync(It.IsAny<string>()), Times.Once);
     }
 
@@ -134,7 +136,7 @@ public class UserControllerUnitTests
         var result = await this._userController.GetUser(string.Empty);
 
         // Assert
-        var statusCodeResult = result as ObjectResult;
+        var statusCodeResult = result.Result as ObjectResult;
         Assert.IsNotNull(statusCodeResult);
         Assert.AreEqual(500, statusCodeResult.StatusCode);
         this._userServiceMock.Verify(service => service.GetUserAsync(It.IsAny<string>()), Times.Once);
@@ -147,15 +149,17 @@ public class UserControllerUnitTests
     public async Task UpdatePasswordAttempt_ReturnsOk_Test()
     {
         // Arrange
+        var request = UnitTestData.GetPasswordAttemptRequest();
+        var apiResponse = UnitTestData.GetPasswordAttemptResponse();
         this._userServiceMock
-            .Setup(s => s.UpdatePasswordAttemptAsync(It.IsAny<int>())).ReturnsAsync(-1);
+            .Setup(s => s.UpdatePasswordAttemptAsync(It.IsAny<PasswordAttemptRequest>())).ReturnsAsync(apiResponse);
 
         // Act
-        var result = await _userController.UpdatePasswordAttempt(1000);
+        var result = await _userController.UpdatePasswordAttempt(request);
 
         // Assert
-        Assert.IsTrue(result is OkResult);
-        this._userServiceMock.Verify(service => service.UpdatePasswordAttemptAsync(It.IsAny<int>()), Times.Once);
+        Assert.IsTrue(result.Result is ObjectResult);
+        this._userServiceMock.Verify(service => service.UpdatePasswordAttemptAsync(It.IsAny<PasswordAttemptRequest>()), Times.Once);
     }
 
     /// <summary>
@@ -165,16 +169,17 @@ public class UserControllerUnitTests
     public async Task UpdatePasswordAttempt_ReturnsBadRequest_Test()
     {
         // Arrange
+        var request = UnitTestData.GetPasswordAttemptRequest();
         this._userServiceMock
-            .Setup(service => service.UpdatePasswordAttemptAsync(It.IsAny<int>()))
-            .ReturnsAsync(0);
+            .Setup(service => service.UpdatePasswordAttemptAsync(It.IsAny<PasswordAttemptRequest>()))
+            .ReturnsAsync(new PasswordAttempt());
 
         // Act
-        var result = await this._userController.UpdatePasswordAttempt(10);
+        var result = await this._userController.UpdatePasswordAttempt(request);
 
         // Assert
-        Assert.IsTrue(result is BadRequestObjectResult);
-        this._userServiceMock.Verify(service => service.UpdatePasswordAttemptAsync(It.IsAny<int>()), Times.Once);
+        Assert.IsTrue(result.Result is BadRequestObjectResult);
+        this._userServiceMock.Verify(service => service.UpdatePasswordAttemptAsync(It.IsAny<PasswordAttemptRequest>()), Times.Once);
     }
 
     /// <summary>
@@ -185,16 +190,16 @@ public class UserControllerUnitTests
     {
         // Arrange
         this._userServiceMock
-            .Setup(service => service.UpdatePasswordAttemptAsync(It.IsAny<int>()))
+            .Setup(service => service.UpdatePasswordAttemptAsync(It.IsAny<PasswordAttemptRequest>()))
             .ThrowsAsync(new Exception("Test exception"));
 
         // Act
-        var result = await this._userController.UpdatePasswordAttempt(0);
+        var result = await this._userController.UpdatePasswordAttempt(new PasswordAttemptRequest());
 
         // Assert
-        var statusCodeResult = result as ObjectResult;
+        var statusCodeResult = result.Result as ObjectResult;
         Assert.IsNotNull(statusCodeResult);
         Assert.AreEqual(500, statusCodeResult.StatusCode);
-        this._userServiceMock.Verify(service => service.UpdatePasswordAttemptAsync(It.IsAny<int>()), Times.Once);
+        this._userServiceMock.Verify(service => service.UpdatePasswordAttemptAsync(It.IsAny<PasswordAttemptRequest>()), Times.Once);
     }
 }

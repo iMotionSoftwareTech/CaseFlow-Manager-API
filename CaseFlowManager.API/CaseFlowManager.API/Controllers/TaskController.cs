@@ -41,21 +41,21 @@ namespace IMotionSoftware.CaseFlowManager.API.Controllers
         /// <returns>The <see cref="Task{TResult}"/></returns>
         [HttpPost]
         [Route("CreateCaseTaskAsync")]
-        public async Task<ActionResult> CreateCaseTaskAsync(CreateTaskRequest createTaskRequest)
+        public async Task<ActionResult<NewTask>> CreateCaseTaskAsync([FromBody] CreateTaskRequest createTaskRequest)
         {
             try
             {
                 var result = await this._taskService.CreateTaskAsync(createTaskRequest);
-                if (result != -1)
+                if (!result.IsSuccess)
                     return BadRequest("Task creation failed.");
+
+                return Ok(result);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while creating task.");
-                return StatusCode(500, "Internal server error");
+                return StatusCode(StatusCodes.Status500InternalServerError, "Internal server error");
             }
-
-            return Ok();
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace IMotionSoftware.CaseFlowManager.API.Controllers
         /// <returns>The <see cref="Task{TResult}"/></returns>
         [HttpGet]
         [Route("GetAllStatusesAsync")]
-        public async Task<ActionResult> GetAllStatusesAsync()
+        public async Task<ActionResult<IEnumerable<Status>>> GetAllStatusesAsync()
         {
             try
             {
@@ -74,7 +74,7 @@ namespace IMotionSoftware.CaseFlowManager.API.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while retrieving statuses.");
-                return StatusCode(500, "Internal server error");
+                return StatusCode(StatusCodes.Status500InternalServerError, "Internal server error");
             }
         }
 
@@ -85,7 +85,7 @@ namespace IMotionSoftware.CaseFlowManager.API.Controllers
         /// <returns>The <see cref="Task{TResult}"/></returns>
         [HttpGet]
         [Route("GetAllCaseTasksAsync/{pageNumber:int}/{pageSize:int}")]
-        public async Task<ActionResult> GetAllCaseTasksAsync(int pageNumber, int pageSize)
+        public async Task<ActionResult<TaskRecord>> GetAllCaseTasksAsync(int pageNumber, int pageSize)
         {
             try
             {
@@ -95,7 +95,7 @@ namespace IMotionSoftware.CaseFlowManager.API.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while retrieving case tasks.");
-                return StatusCode(500, "Internal server error");
+                return StatusCode(StatusCodes.Status500InternalServerError, "Internal server error");
             }
         }
 
@@ -106,7 +106,7 @@ namespace IMotionSoftware.CaseFlowManager.API.Controllers
         /// <returns>The <see cref="Task{TResult}"/></returns>
         [HttpGet]
         [Route("GetTaskWithStatusesByIdAsync/{taskId:int}")]
-        public async Task<ActionResult> GetTaskWithStatusesByIdAsync(int taskId)
+        public async Task<ActionResult<IEnumerable<CaseTaskStatus>>> GetTaskWithStatusesByIdAsync(int taskId)
         {
             try
             {
@@ -116,7 +116,7 @@ namespace IMotionSoftware.CaseFlowManager.API.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while retrieving task with statuses.");
-                return StatusCode(500, "Internal server error");
+                return StatusCode(StatusCodes.Status500InternalServerError, "Internal server error");
             }
         }
 
@@ -127,20 +127,21 @@ namespace IMotionSoftware.CaseFlowManager.API.Controllers
         /// <returns>The <see cref="Task{TResult}"/></returns>
         [HttpPost]
         [Route("LogCaseTaskStatusAsync")]
-        public async Task<ActionResult> LogCaseTaskStatusAsync(LogStatusRequest logStatusRequest)
+        public async Task<ActionResult<TaskUpdate>> LogCaseTaskStatusAsync([FromBody] LogStatusRequest logStatusRequest)
         {
             try
             {
                 var result = await this._taskService.LogTaskStatusAsync(logStatusRequest);
-                if (result != -1)
+                if (!result.IsSuccess)
                     return BadRequest("Logging task status failed.");
+
+                return Ok(result);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while logging task status.");
-                return StatusCode(500, "Internal server error");
+                return StatusCode(StatusCodes.Status500InternalServerError, "Internal server error");
             }
-            return Ok();
         }
 
         /// <summary>
@@ -150,20 +151,21 @@ namespace IMotionSoftware.CaseFlowManager.API.Controllers
         /// <returns>The <see cref="Task{TResult}"/></returns>
         [HttpPost]
         [Route("LogBulkTaskStatusesAsync")]
-        public async Task<ActionResult> LogBulkTaskStatusesAsync(IEnumerable<LogStatusRequest> logTaskStatusRequests)
+        public async Task<ActionResult<BulkTaskUpdate>> LogBulkTaskStatusesAsync([FromBody] IEnumerable<LogStatusRequest> logTaskStatusRequests)
         {
             try
             {
                 var result = await this._taskService.LogTaskStatusesAsync(logTaskStatusRequests);
-                if (result != -1)
+                if (!result.IsSuccess)
                     return BadRequest("Logging bulk task statuses failed.");
+
+                return Ok(result);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while logging bulk task statuses.");
-                return StatusCode(500, "Internal server error");
+                return StatusCode(StatusCodes.Status500InternalServerError, "Internal server error");
             }
-            return Ok();
         }
     }
 }

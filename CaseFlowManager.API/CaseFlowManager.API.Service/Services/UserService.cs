@@ -33,9 +33,10 @@ namespace CaseFlowManager.API.Service.Services
         /// <returns>
         /// The <see cref="Task{TResult}" />
         /// </returns>
-        public async Task<int> CreateUserAsync(CreateUserRequest createUserRequest)
+        public async Task<NewUser> CreateUserAsync(CreateUserRequest createUserRequest)
         {
-            return await this._userRepo.CreateUserAsync(createUserRequest.ToCreateUserParameter());
+            var result = await this._userRepo.CreateUserAsync(createUserRequest.ToCreateUserParameter());
+            return result.ToNewUser();
         }
 
         /// <summary>
@@ -58,9 +59,10 @@ namespace CaseFlowManager.API.Service.Services
         /// <returns>
         /// The <see cref="Task{TResult}" />
         /// </returns>
-        public async Task<int> UpdatePasswordAttemptAsync(int caseworkerId)
+        public async Task<PasswordAttempt> UpdatePasswordAttemptAsync(PasswordAttemptRequest passwordAttemptRequest)
         {
-            return await this._userRepo.UpdatePasswordAttemptAsync(caseworkerId);
+            var result = await this._userRepo.UpdatePasswordAttemptAsync(passwordAttemptRequest.ToPasswordAttemptParameter());
+            return result.ToPasswordAttempt();
         }
     }
 }

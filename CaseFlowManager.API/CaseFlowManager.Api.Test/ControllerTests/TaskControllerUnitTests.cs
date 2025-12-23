@@ -2,6 +2,7 @@ using Azure.Core;
 using CaseFlowManager.API.Service.Interfaces;
 using IMotionSoftware.CaseFlowManager.Api.Test.TestConfiguration;
 using IMotionSoftware.CaseFlowManager.API.Controllers;
+using IMotionSoftware.CaseFlowManager.API.Models.Models;
 using IMotionSoftware.CaseFlowManager.API.Models.Request;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -49,15 +50,16 @@ public class TaskControllerUnitTests
     {
         // Arrange
         var parameter = UnitTestData.GetCreateTaskRequest();
+        var apiResponse = UnitTestData.GetNewTaskResponse();
         this._taskServiceMock
             .Setup(service => service.CreateTaskAsync(It.IsAny<CreateTaskRequest>()))
-            .ReturnsAsync(-1);
+            .ReturnsAsync(apiResponse);
 
         // Act
         var result = await this._taskController.CreateCaseTaskAsync(parameter);
 
         // Assert
-        Assert.IsTrue(result is OkResult);
+        Assert.IsTrue(result.Result is ObjectResult);
         this._taskServiceMock.Verify(service => service.CreateTaskAsync(It.IsAny<CreateTaskRequest>()), Times.Once);
     }
 
@@ -71,13 +73,13 @@ public class TaskControllerUnitTests
         var parameter = UnitTestData.GetCreateTaskRequest();
         this._taskServiceMock
             .Setup(service => service.CreateTaskAsync(It.IsAny<CreateTaskRequest>()))
-            .ReturnsAsync(0);
+            .ReturnsAsync(new NewTask());
 
         // Act
         var result = await this._taskController.CreateCaseTaskAsync(parameter);
 
         // Assert
-        Assert.IsTrue(result is BadRequestObjectResult);
+        Assert.IsTrue(result.Result is BadRequestObjectResult);
         this._taskServiceMock.Verify(service => service.CreateTaskAsync(It.IsAny<CreateTaskRequest>()), Times.Once);
     }
 
@@ -96,7 +98,7 @@ public class TaskControllerUnitTests
         var result = await this._taskController.CreateCaseTaskAsync(parameter);
 
         // Assert
-        var statusCodeResult = result as ObjectResult;
+        var statusCodeResult = result.Result as ObjectResult;
         Assert.IsNotNull(statusCodeResult);
         Assert.AreEqual(500, statusCodeResult.StatusCode);
         this._taskServiceMock.Verify(service => service.CreateTaskAsync(It.IsAny<CreateTaskRequest>()), Times.Once);
@@ -117,7 +119,7 @@ public class TaskControllerUnitTests
         var result = await this._taskController.GetAllStatusesAsync();
 
         // Assert
-        Assert.IsTrue(result is OkObjectResult);
+        Assert.IsTrue(result.Result is OkObjectResult);
         this._taskServiceMock.Verify(service => service.GetAllStatusesAsync(), Times.Once);
     }
 
@@ -136,7 +138,7 @@ public class TaskControllerUnitTests
         var result = await this._taskController.GetAllStatusesAsync();
 
         // Assert
-        var statusCodeResult = result as ObjectResult;
+        var statusCodeResult = result.Result as ObjectResult;
         Assert.IsNotNull(statusCodeResult);
         Assert.AreEqual(500, statusCodeResult.StatusCode);
         this._taskServiceMock.Verify(service => service.GetAllStatusesAsync(), Times.Once);
@@ -157,7 +159,7 @@ public class TaskControllerUnitTests
         var result = await this._taskController.GetAllCaseTasksAsync(1, 10);
 
         // Assert
-        Assert.IsTrue(result is OkObjectResult);
+        Assert.IsTrue(result.Result is OkObjectResult);
         this._taskServiceMock.Verify(service => service.GetAllTasksAsync(It.IsAny<int>(), It.IsAny<int>()), Times.Once);
     }
 
@@ -176,7 +178,7 @@ public class TaskControllerUnitTests
         var result = await this._taskController.GetAllCaseTasksAsync(0, 0);
 
         // Assert
-        var statusCodeResult = result as ObjectResult;
+        var statusCodeResult = result.Result as ObjectResult;
         Assert.IsNotNull(statusCodeResult);
         Assert.AreEqual(500, statusCodeResult.StatusCode);
         this._taskServiceMock.Verify(service => service.GetAllTasksAsync(It.IsAny<int>(), It.IsAny<int>()), Times.Once);
@@ -197,7 +199,7 @@ public class TaskControllerUnitTests
         var result = await this._taskController.GetTaskWithStatusesByIdAsync(1);
 
         // Assert
-        Assert.IsTrue(result is OkObjectResult);
+        Assert.IsTrue(result.Result is OkObjectResult);
         this._taskServiceMock.Verify(service => service.GetTaskWithStatusesByIdAsync(It.IsAny<int>()), Times.Once);
     }
 
@@ -216,7 +218,7 @@ public class TaskControllerUnitTests
         var result = await this._taskController.GetTaskWithStatusesByIdAsync(1);
 
         // Assert
-        var statusCodeResult = result as ObjectResult;
+        var statusCodeResult = result.Result as ObjectResult;
         Assert.IsNotNull(statusCodeResult);
         Assert.AreEqual(500, statusCodeResult.StatusCode);
         this._taskServiceMock.Verify(service => service.GetTaskWithStatusesByIdAsync(It.IsAny<int>()), Times.Once);
@@ -230,15 +232,16 @@ public class TaskControllerUnitTests
     {
         // Arrange
         var parameter = UnitTestData.GetLogStatusRequest();
+        var apiResponse = UnitTestData.GetTaskUpdateResponse();
         this._taskServiceMock
             .Setup(service => service.LogTaskStatusAsync(It.IsAny<LogStatusRequest>()))
-            .ReturnsAsync(-1);
+            .ReturnsAsync(apiResponse);
 
         // Act
         var result = await this._taskController.LogCaseTaskStatusAsync(parameter);
 
         // Assert
-        Assert.IsTrue(result is OkResult);
+        Assert.IsTrue(result.Result is ObjectResult);
         this._taskServiceMock.Verify(service => service.LogTaskStatusAsync(It.IsAny<LogStatusRequest>()), Times.Once);
     }
 
@@ -252,13 +255,13 @@ public class TaskControllerUnitTests
         var parameter = UnitTestData.GetLogStatusRequest();
         this._taskServiceMock
             .Setup(service => service.LogTaskStatusAsync(It.IsAny<LogStatusRequest>()))
-            .ReturnsAsync(0);
+            .ReturnsAsync(new TaskUpdate());
 
         // Act
         var result = await this._taskController.LogCaseTaskStatusAsync(parameter);
 
         // Assert
-        Assert.IsTrue(result is BadRequestObjectResult);
+        Assert.IsTrue(result.Result is BadRequestObjectResult);
         this._taskServiceMock.Verify(service => service.LogTaskStatusAsync(It.IsAny<LogStatusRequest>()), Times.Once);
     }
 
@@ -277,7 +280,7 @@ public class TaskControllerUnitTests
         var result = await this._taskController.LogCaseTaskStatusAsync(parameter);
 
         // Assert
-        var statusCodeResult = result as ObjectResult;
+        var statusCodeResult = result.Result as ObjectResult;
         Assert.IsNotNull(statusCodeResult);
         Assert.AreEqual(500, statusCodeResult.StatusCode);
         this._taskServiceMock.Verify(service => service.LogTaskStatusAsync(It.IsAny<LogStatusRequest>()), Times.Once);
@@ -291,15 +294,16 @@ public class TaskControllerUnitTests
     {
         // Arrange
         var parameter = UnitTestData.GetTaskStatusRequests();
+        var apiResponse = UnitTestData.GetBulkTaskUpdateResponse();
         this._taskServiceMock
             .Setup(service => service.LogTaskStatusesAsync(It.IsAny<IEnumerable<LogStatusRequest>>()))
-            .ReturnsAsync(-1);
+            .ReturnsAsync(apiResponse);
 
         // Act
         var result = await this._taskController.LogBulkTaskStatusesAsync(parameter);
 
         // Assert
-        Assert.IsTrue(result is OkResult);
+        Assert.IsTrue(result.Result is ObjectResult);
         this._taskServiceMock.Verify(service => service.LogTaskStatusesAsync(It.IsAny<IEnumerable<LogStatusRequest>>()), Times.Once);
     }
 
@@ -313,13 +317,13 @@ public class TaskControllerUnitTests
         var parameter = UnitTestData.GetTaskStatusRequests();
         this._taskServiceMock
             .Setup(service => service.LogTaskStatusesAsync(It.IsAny<IEnumerable<LogStatusRequest>>()))
-            .ReturnsAsync(0);
+            .ReturnsAsync(new BulkTaskUpdate());
 
         // Act
         var result = await this._taskController.LogBulkTaskStatusesAsync(parameter);
 
         // Assert
-        Assert.IsTrue(result is BadRequestObjectResult);
+        Assert.IsTrue(result.Result is BadRequestObjectResult);
         this._taskServiceMock.Verify(service => service.LogTaskStatusesAsync(It.IsAny<IEnumerable<LogStatusRequest>>()), Times.Once);
     }
 
@@ -339,7 +343,7 @@ public class TaskControllerUnitTests
         var result = await this._taskController.LogBulkTaskStatusesAsync(parameter);
 
         // Assert
-        var statusCodeResult = result as ObjectResult;
+        var statusCodeResult = result.Result as ObjectResult;
         Assert.IsNotNull(statusCodeResult);
         Assert.AreEqual(500, statusCodeResult.StatusCode);
         this._taskServiceMock.Verify(service => service.LogTaskStatusesAsync(It.IsAny<IEnumerable<LogStatusRequest>>()), Times.Once);

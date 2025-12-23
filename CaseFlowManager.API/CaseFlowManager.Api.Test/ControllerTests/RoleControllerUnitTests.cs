@@ -1,6 +1,7 @@
 using CaseFlowManager.API.Controllers;
 using CaseFlowManager.API.Service.Interfaces;
 using IMotionSoftware.CaseFlowManager.Api.Test.TestConfiguration;
+using IMotionSoftware.CaseFlowManager.API.Models.Models;
 using IMotionSoftware.CaseFlowManager.API.Models.Request;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -47,15 +48,16 @@ public class RoleControllerUnitTests
     public async Task CreateCaseworkerRoleASync_ReturnsOk_Test()
     {
         // Arrange
+        var apiResponse = UnitTestData.GetNewRoleResponse();
         var parameter = UnitTestData.GetCreateRoleRequest();
         this._roleServiceMock
-            .Setup(service => service.CreateRoleAsync(It.IsAny<CreateRoleRequest>())).ReturnsAsync(-1);
+            .Setup(service => service.CreateRoleAsync(It.IsAny<CreateRoleRequest>())).ReturnsAsync(apiResponse);
 
         // Act
         var result = await this._roleController.CreateCaseworkerRoleAsync(parameter);
 
         // Assert
-        Assert.IsTrue(result is OkResult);
+        Assert.IsTrue(result.Result is ObjectResult);
         this._roleServiceMock.Verify(service => service.CreateRoleAsync(It.IsAny<CreateRoleRequest>()), Times.Once);
     }
 
@@ -69,13 +71,13 @@ public class RoleControllerUnitTests
         var parameter = UnitTestData.GetCreateRoleRequest();
         this._roleServiceMock
             .Setup(service => service.CreateRoleAsync(It.IsAny<CreateRoleRequest>()))
-            .ReturnsAsync(0);
+            .ReturnsAsync(new NewRole());
 
         // Act
         var result = await this._roleController.CreateCaseworkerRoleAsync(parameter);
 
         // Assert
-        Assert.IsTrue(result is BadRequestObjectResult);
+        Assert.IsTrue(result.Result is BadRequestObjectResult);
         this._roleServiceMock.Verify(service => service.CreateRoleAsync(It.IsAny<CreateRoleRequest>()), Times.Once);
     }
 
@@ -95,7 +97,7 @@ public class RoleControllerUnitTests
         var result = await this._roleController.CreateCaseworkerRoleAsync(parameter);
 
         // Assert
-        var statusCodeResult = result as ObjectResult;
+        var statusCodeResult = result.Result as ObjectResult;
         Assert.IsNotNull(statusCodeResult);
         Assert.AreEqual(500, statusCodeResult.StatusCode);
         this._roleServiceMock.Verify(service => service.CreateRoleAsync(It.IsAny<CreateRoleRequest>()), Times.Once);
@@ -116,7 +118,7 @@ public class RoleControllerUnitTests
         var result = await this._roleController.GetAllCaseworkerRolesAsync();
 
         // Assert
-        Assert.IsTrue(result is OkObjectResult);
+        Assert.IsTrue(result.Result is OkObjectResult);
         this._roleServiceMock.Verify(service => service.GetAllRolesAsync(), Times.Once);
     }
 
@@ -135,7 +137,7 @@ public class RoleControllerUnitTests
         var result = await this._roleController.GetAllCaseworkerRolesAsync();
 
         // Assert
-        var statusCodeResult = result as ObjectResult;
+        var statusCodeResult = result.Result as ObjectResult;
         Assert.IsNotNull(statusCodeResult);
         Assert.AreEqual(500, statusCodeResult.StatusCode);
         this._roleServiceMock.Verify(service => service.GetAllRolesAsync(), Times.Once);
